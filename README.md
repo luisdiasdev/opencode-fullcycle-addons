@@ -1,51 +1,28 @@
-# Full Cycle Claude Marketplace
+# Full Cycle OpenCode Pack
 
-A collection of Claude Code plugins for software architecture and design documentation.
+A collection of [OpenCode](https://opencode.ai) agents and commands for software architecture and design documentation.
 
-## Available Plugins
+## What's Included
 
-This marketplace provides four powerful plugins for architectural documentation and analysis:
+This pack provides four sets of agents and commands for architectural documentation and analysis:
 
-- **[ADRs Management](./plugins/adrs-management/USAGE.md)** - Comprehensive Architecture Decision Records (ADRs) analysis, generation, and linking
-- **[Diagrams Generator](./plugins/diagrams-generator/USAGE.md)** - Generate C4 and Mermaid diagrams from Feature Design Documents (FDDs)
-- **[Project Analyzer](./plugins/project-analizer/USAGE.md)** - Comprehensive architectural analysis, component deep-dive, and dependency auditing
-- **[Development Guidelines](./plugins/development-guidelines/USAGE.md)** - Generate comprehensive language-specific development guideline documents
+- **[ADRs Management](./docs/adrs-management.md)** - Comprehensive Architecture Decision Records (ADRs) analysis, generation, and linking
+- **[Diagrams Generator](./docs/diagrams-generator.md)** - Generate C4 and Mermaid diagrams from Feature Design Documents (FDDs)
+- **[Project Analyzer](./docs/project-analizer.md)** - Comprehensive architectural analysis, component deep-dive, and dependency auditing
+- **[Development Guidelines](./docs/development-guidelines.md)** - Generate comprehensive language-specific development guideline documents
 
 ## Installation
 
-### Add Marketplace
-
-To use these plugins, first add this marketplace to Claude Code:
+The agents and commands live in [`.opencode/`](./.opencode) (8 subagents + 9 commands). Copy (or symlink) the files into your global OpenCode config:
 
 ```bash
-/plugin marketplace add devfullcycle/claude-mkt-place
+cp .opencode/agents/*.md ~/.config/opencode/agents/
+cp .opencode/commands/*.md ~/.config/opencode/commands/
 ```
 
-This command adds the GitHub repository as a plugin marketplace source.
+Or into a single project's `.opencode/agents/` and `.opencode/commands/` for project-only use. You can also copy only the files you want. Restart OpenCode afterwards.
 
-### Install Plugins
-
-After adding the marketplace, install individual plugins:
-
-```bash
-# Install ADRs Management plugin
-/plugin install adrs-management@devfullcycle
-
-# Install Diagrams Generator plugin
-/plugin install diagrams-generator@devfullcycle
-
-# Install Project Analyzer plugin
-/plugin install project-analizer@devfullcycle
-
-# Install Development Guidelines plugin
-/plugin install development-guidelines@devfullcycle
-```
-
-**Note**: The marketplace identifier (`devfullcycle`) is derived from the GitHub organization/username. After adding the marketplace, you can also browse available plugins using:
-
-```bash
-/plugin
-```
+**Note**: Agents pin `model: opencodego/kimi-k3` in their frontmatter — change or remove the `model:` line to use your own configured model.
 
 ## Quick Start
 
@@ -90,9 +67,9 @@ Generate comprehensive development guidelines for any programming language:
 
 ## Documentation
 
-For detailed usage instructions, see each plugin's documentation:
+For detailed usage instructions, see each pack's documentation:
 
-- [ADRs Management Usage Guide](./plugins/adrs-management/USAGE.md)
-- [Diagrams Generator Usage Guide](./plugins/diagrams-generator/USAGE.md)
-- [Project Analyzer Usage Guide](./plugins/project-analizer/USAGE.md)
-- [Development Guidelines Usage Guide](./plugins/development-guidelines/USAGE.md)
+- [ADRs Management Usage Guide](./docs/adrs-management.md)
+- [Diagrams Generator Usage Guide](./docs/diagrams-generator.md)
+- [Project Analyzer Usage Guide](./docs/project-analizer.md)
+- [Development Guidelines Usage Guide](./docs/development-guidelines.md)
