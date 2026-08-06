@@ -2,7 +2,7 @@
 description: >-
   Detect and create bidirectional relationships between existing ADRs with clickable Markdown links. Analyzes temporal evolution, technical dependencies, semantic similarity, and explicit hints to build a comprehensive ADR relationship graph.
 mode: subagent
-model: opencodego/kimi-k3
+model: opencode-go/kimi-k3
 color: "#3B82F6"
 ---
 

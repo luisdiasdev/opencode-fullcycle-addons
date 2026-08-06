@@ -22,7 +22,7 @@ cp .opencode/commands/*.md ~/.config/opencode/commands/
 
 Or into a single project's `.opencode/agents/` and `.opencode/commands/` for project-only use. You can also copy only the files you want. Restart OpenCode afterwards.
 
-**Note**: Agents pin `model: opencodego/kimi-k3` in their frontmatter — change or remove the `model:` line to use your own configured model.
+**Note**: Agents pin `model: opencode-go/kimi-k3` in their frontmatter — change or remove the `model:` line to use your own configured model.
 
 ## Quick Start
 

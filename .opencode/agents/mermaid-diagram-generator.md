@@ -32,7 +32,7 @@ description: >-
   <Task tool call to mermaid-diagram-generator agent>
   </example>
 mode: subagent
-model: opencodego/kimi-k3
+model: opencode-go/kimi-k3
 color: "#A855F7"
 ---
 

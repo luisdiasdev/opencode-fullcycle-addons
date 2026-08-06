@@ -46,7 +46,7 @@ description: >-
   <Task tool call to adr-analyzer agent>
   </example>
 mode: subagent
-model: opencodego/kimi-k3
+model: opencode-go/kimi-k3
 color: "#EAB308"
 ---
 
