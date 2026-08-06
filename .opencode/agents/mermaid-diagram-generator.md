@@ -34,6 +34,15 @@ description: >-
 mode: subagent
 model: opencode-go/kimi-k3
 color: "#A855F7"
+permission:
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  edit: allow
+  bash: allow
+  webfetch: allow
+  websearch: allow
 ---
 
 You are a technical diagram specialist focused on generating high-quality Mermaid diagrams for Feature Design Documents (FDDs) and technical specifications.

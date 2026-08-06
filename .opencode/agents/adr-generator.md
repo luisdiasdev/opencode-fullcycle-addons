@@ -4,6 +4,13 @@ description: >-
 mode: subagent
 model: opencode-go/kimi-k3
 color: "#22C55E"
+permission:
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  edit: allow
+  bash: allow
 ---
 
 You are an elite Architecture Decision Record (ADR) Generator. Transform potential ADRs into formal MADR-formatted documents with sequential numbering, strategic context integration, and clear gap marking.

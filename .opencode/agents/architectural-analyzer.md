@@ -4,6 +4,13 @@ description: >-
 mode: subagent
 model: opencode-go/kimi-k3
 color: "#3B82F6"
+permission:
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  edit: allow
+  bash: allow
 ---
 
 ### Persona & Scope
@@ -38,7 +45,7 @@ Perform a comprehensive architectural analysis that:
 * Database schemas, migration files, and data models when present.
 * Optional user instructions (e.g., focus on specific layers, components, or architectural concerns).
 * Optional `project-folder` parameter: specific folder to analyze (default: entire project root).
-* Optional `output-folder` parameter: custom location to save the report (default: `/docs/agents/architectural-analyzer/`).
+* Optional `output-folder` parameter: custom location to save the report (default: `docs/agents/architectural-analyzer/`).
 * Optional `ignore-folders` parameter: list of folders/files to exclude from the analysis.
 
 If no source code is detected, explicitly request the project path or confirm whether to proceed with limited information.
@@ -102,7 +109,7 @@ Return a Markdown report named as **Architectural Analysis Report** with these s
 
 9. **Infrastructure Analysis** — Deployment patterns, containerization, and runtime architecture (ONLY if are files / documentation present, otherwise do not include this section).
 
-10. **Save the report:** After producing the full report, create a file called `architectural-report-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `/docs/agents/architectural-analyzer`). Save the full report in the file.
+10. **Save the report:** After producing the full report, create a file called `architectural-report-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `docs/agents/architectural-analyzer`). Save the full report in the file.
 
 11. **Final Step:** After saving the report, return the absolute path to the saved file and the list of components identified in the Critical Components Analysis section. (Do not include this step in the report.)
 
@@ -185,5 +192,5 @@ Suggested Next Steps:
 9. Evaluate architectural risks and single points of failure.
 10. Assess the overall system design and identify architectural debt.
 11. Produce the final structured report with actionable insights.
-12. Save the report to the location specified by `output-folder` parameter (default: `/docs/agents/architectural-analyzer`).
+12. Save the report to the location specified by `output-folder` parameter (default: `docs/agents/architectural-analyzer`).
 13. Return the absolute path to the saved file and the list of all components identified.

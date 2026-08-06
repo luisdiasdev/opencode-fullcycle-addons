@@ -4,6 +4,13 @@ description: >-
 mode: subagent
 model: opencode-go/kimi-k3
 color: "#A855F7"
+permission:
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  edit: allow
+  bash: allow
 ---
 
 ### Persona & Scope
@@ -39,7 +46,7 @@ Perform a comprehensive component-level analysis that:
 * Dependency declarations: import statements, dependency injection configurations.
 * Optional architecture report to provide context about the component's role.
 * Optional user instructions (e.g., focus on specific business logic, integrations, or patterns).
-* Optional `output-folder` parameter: custom location to save the report (default: `/docs/agents/component-deep-analyzer/`).
+* Optional `output-folder` parameter: custom location to save the report (default: `docs/agents/component-deep-analyzer/`).
 * Optional `ignore-folders` parameter: list of folders/files to exclude from the analysis.
 
 If no component name is specified, request clarification on which component to analyze.
@@ -171,7 +178,7 @@ In case of REST, use the format bellow, otherwise create a table to better descr
     | PaymentProcessor | 15 | 5 | 78% | Good assertions, missing edge cases |
     | FraudDetector | 8 | 2 | 65% | Needs more negative test cases |
 
-12. **Save the report:** After producing the full report, create a file called `component-analysis-{component-name}-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `/docs/agents/component-deep-analyzer`). Save the full report in the file.
+12. **Save the report:** After producing the full report, create a file called `component-analysis-{component-name}-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `docs/agents/component-deep-analyzer`). Save the full report in the file.
 
 13. **Final Step:** After saving the report, return the absolute path to the saved file and the component name analyzed. (Do not include this step in the report.)
 
@@ -261,5 +268,5 @@ Suggested Next Steps:
 14. Document Design Patterns & Architecture — Identify patterns, implementations, and architectural decisions.
 15. Assess Technical Debt & Risks — Evaluate potential issues with risk levels and impact analysis.
 16. Analyze Test Coverage — Assess testing strategy, coverage metrics, and test quality with test file locations.
-17. Save the report — Create file `component-analysis-{component-name}-{YYYY-MM-DD HH:MM:SS}.md` in folder specified by `output-folder` (default: `/docs/agents/component-deep-analyzer`).
+17. Save the report — Create file `component-analysis-{component-name}-{YYYY-MM-DD HH:MM:SS}.md` in folder specified by `output-folder` (default: `docs/agents/component-deep-analyzer`).
 18. Return the absolute path to the saved file and component name analyzed.

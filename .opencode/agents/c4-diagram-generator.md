@@ -40,6 +40,15 @@ description: >-
 mode: subagent
 model: opencode-go/kimi-k3
 color: "#3B82F6"
+permission:
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  edit: allow
+  bash: allow
+  webfetch: allow
+  websearch: allow
 ---
 
 You are a C4 architecture diagram specialist. Your task is to generate PlantUML C4 diagrams from Feature Design Documents (FDDs).

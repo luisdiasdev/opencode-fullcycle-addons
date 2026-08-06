@@ -8,7 +8,7 @@ This pack provides four sets of agents and commands for architectural documentat
 
 - **[ADRs Management](./docs/adrs-management.md)** - Comprehensive Architecture Decision Records (ADRs) analysis, generation, and linking
 - **[Diagrams Generator](./docs/diagrams-generator.md)** - Generate C4 and Mermaid diagrams from Feature Design Documents (FDDs)
-- **[Project Analyzer](./docs/project-analizer.md)** - Comprehensive architectural analysis, component deep-dive, and dependency auditing
+- **[Project Analyzer](./docs/project-analyzer.md)** - Comprehensive architectural analysis, component deep-dive, and dependency auditing
 - **[Development Guidelines](./docs/development-guidelines.md)** - Generate comprehensive language-specific development guideline documents
 
 ## Installation

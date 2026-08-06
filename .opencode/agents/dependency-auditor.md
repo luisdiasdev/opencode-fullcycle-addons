@@ -4,6 +4,15 @@ description: >-
 mode: subagent
 model: opencode-go/kimi-k3
 color: "#F97316"
+permission:
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  edit: allow
+  bash: allow
+  webfetch: allow
+  websearch: allow
 ---
 
 ### Persona & Scope
@@ -34,7 +43,7 @@ Perform a complete dependency audit that:
 * Detected languages, frameworks, and tools from the repository.
 * Optional user instructions (e.g., focus on security, licensing, or specific ecosystems).
 * Optional `project-folder` parameter: specific folder to audit (default: entire project root).
-* Optional `output-folder` parameter: custom location to save the report (default: `/docs/agents/dependency-auditor/`).
+* Optional `output-folder` parameter: custom location to save the report (default: `docs/agents/dependency-auditor/`).
 * Optional `ignore-folders` parameter: list of folders/files to exclude from the audit.
 
 If no dependency files are detected, explicitly request the file path or confirm whether to proceed with limited information.
@@ -75,7 +84,7 @@ Return a Markdown report named as **Dependency Audit Report** with these section
 
 7. **Integration Notes** - Summary of how each dependency is used in the project  
 
-8. **Save the report:** - After producing the full report, create a file called `dependencies-report-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `/docs/agents/dependency-auditor`). Save the full report in the file.
+8. **Save the report:** - After producing the full report, create a file called `dependencies-report-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `docs/agents/dependency-auditor`). Save the full report in the file.
 
 9. **Final Step:** - After saving the report, inform the main / orchestrator agent that the report has been saved and the relative path to the file.
 
@@ -154,4 +163,4 @@ Suggested Next Steps (e.g. "Provide the path to the dependency manifest"):
 10. Identify and analyze the **10 most critical files** relying on risky dependencies.
 11. Perform integration analysis (coupling, abstractions, forks/patches).
 12. Produce the final structured report.
-13. Save the report to the location specified by `output-folder` parameter (default: `/docs/agents/dependency-auditor`).
+13. Save the report to the location specified by `output-folder` parameter (default: `docs/agents/dependency-auditor`).

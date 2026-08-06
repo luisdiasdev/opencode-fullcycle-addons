@@ -7,7 +7,7 @@ You MUST coordinate a multi-phase workflow invoking specialized agents and manag
 
 Extract the following parameters from command arguments:
 - project-folder (optional, default: entire project root)
-- output-folder (optional, default: "/docs/agents")
+- output-folder (optional, default: "docs/agents")
 - ignore-folders (optional, comma-separated list)
 
 ---
@@ -326,7 +326,7 @@ Before invoking agents, replace these placeholders:
 
 - [PROJECT_NAME]: Detect from folder name or ask user
 - [PROJECT_SCOPE]: Use `project-folder` parameter or "entire project root"
-- [OUTPUT_FOLDER]: Use `output-folder` parameter or "/docs/agents"
+- [OUTPUT_FOLDER]: Use `output-folder` parameter or "docs/agents"
 - [IGNORE_FOLDERS]: Use `ignore-folders` parameter or "none"
 - [COMPONENT_NAME]: Extract from architectural report for each component
 

@@ -7,7 +7,7 @@ You MUST invoke the dependency-auditor agent using the Task tool with subagent_t
 
 Extract the following parameters from command arguments:
 - project-folder (optional, default: entire project root)
-- output-folder (optional, default: "/docs/agents/dependency-auditor")
+- output-folder (optional, default: "docs/agents/dependency-auditor")
 - ignore-folders (optional, comma-separated list)
 
 Pass the following prompt to the agent:
@@ -34,7 +34,7 @@ REPORT must include:
 - List of unverified dependencies (if any)"
 
 Replace [PROJECT_SCOPE] with the specified project-folder or "entire project root" if not provided.
-Replace [OUTPUT_FOLDER] with the specified output-folder or "/docs/agents/dependency-auditor" if not provided.
+Replace [OUTPUT_FOLDER] with the specified output-folder or "docs/agents/dependency-auditor" if not provided.
 Replace [IGNORE_FOLDERS] with the comma-separated list or "none" if not provided.
 
 ## Usage Examples
@@ -46,7 +46,7 @@ Replace [IGNORE_FOLDERS] with the comma-separated list or "none" if not provided
 # Audit a specific folder
 /run-dependency-audit --project-folder=project-folder
 
-# Audit and save report to custom location (default: /docs/agents/dependency-auditor/)
+# Audit and save report to custom location (default: docs/agents/dependency-auditor/)
 # File pattern: dependencies-report-{YYYY-MM-DD HH:MM:SS}.md
 /run-dependency-audit --output-folder=output-folder
 
