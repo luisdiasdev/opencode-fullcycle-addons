@@ -2,7 +2,6 @@
 description: >-
   Generate a formal ADR from a single potential ADR file identified in the codebase. This agent processes ONE file at a time. When multiple files need processing, the command launcher invokes multiple instances of this agent in parallel.
 mode: subagent
-model: opencode-go/kimi-k3
 color: "#22C55E"
 permission:
   read: allow

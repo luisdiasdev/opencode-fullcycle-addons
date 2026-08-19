@@ -38,7 +38,6 @@ description: >-
   - A user asks about documenting system design
   - A user references a feature design document without explicitly requesting diagrams
 mode: subagent
-model: opencode-go/kimi-k3
 color: "#3B82F6"
 permission:
   read: allow
