@@ -1,20 +1,23 @@
-# Install the Full Cycle OpenCode Pack globally on Windows.
+# Install the Full Cycle OpenCode Pack globally or into a specific project.
 #
 # Usage:
-#   .\install.ps1                  # copy files
-#   .\install.ps1 -Symlink         # symlink files (keeps repo live)
+#   .\install.ps1                              # copy files globally
+#   .\install.ps1 -Symlink                     # symlink files globally
+#   .\install.ps1 -ProjectDir C:\MyProject     # install into a project
 #   $env:OPENCODE_CONFIG_DIR="C:\Custom"; .\install.ps1
 
 [CmdletBinding()]
 param(
     [switch]$Symlink,
+    [string]$ProjectDir,
     [switch]$Help
 )
 
 if ($Help) {
-    Write-Host "Usage: .\install.ps1 [-Symlink]"
-    Write-Host "  -Symlink  Create symbolic links instead of copying files."
-    Write-Host "  Set `$env:OPENCODE_CONFIG_DIR` to override the target config directory."
+    Write-Host "Usage: .\install.ps1 [-Symlink] [-ProjectDir <path>]"
+    Write-Host "  -Symlink      Create symbolic links instead of copying files."
+    Write-Host "  -ProjectDir   Install the pack into a project's .opencode folder."
+    Write-Host "  Set `$env:OPENCODE_CONFIG_DIR` to override the global config directory."
     exit 0
 }
 
@@ -25,6 +28,9 @@ $SourceCommandsDir = Join-Path $ScriptDir ".opencode\commands"
 # Determine OpenCode config directory
 if ($env:OPENCODE_CONFIG_DIR) {
     $ConfigDir = $env:OPENCODE_CONFIG_DIR
+} elseif ($ProjectDir) {
+    # Project-local install: place files under <ProjectDir>\.opencode
+    $ConfigDir = Join-Path (Resolve-Path $ProjectDir) ".opencode"
 } else {
     # OpenCode uses ~/.config/opencode on Windows as well
     $ConfigDir = Join-Path $env:USERPROFILE ".config\opencode"

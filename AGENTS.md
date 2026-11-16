@@ -93,8 +93,18 @@ Copy-Item .opencode\commands\*.md "$env:USERPROFILE\.config\opencode\commands\"
 
 ### Option 3: Project-local install
 
-Copy the `.opencode/` folder into a target project. This makes the agents and
-commands available only inside that project.
+Install the pack into a specific project so the agents and commands are
+available only inside that project.
+
+```bash
+# macOS / Linux
+./install.sh --project-dir /path/to/target/project
+
+# Windows PowerShell
+.\install.ps1 -ProjectDir C:\path\to\target\project
+```
+
+You can also copy the folder manually:
 
 ```bash
 cp -r .opencode /path/to/target/project/

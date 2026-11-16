@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #
-# Install the Full Cycle OpenCode Pack globally.
+# Install the Full Cycle OpenCode Pack globally or into a specific project.
 #
 # Usage:
-#   ./install.sh                  # copy files
-#   ./install.sh --symlink        # symlink files (keeps repo live)
+#   ./install.sh                       # copy files globally
+#   ./install.sh --symlink             # symlink files globally
+#   ./install.sh --project-dir ./my-project
 #   OPENCODE_CONFIG_DIR=/custom ./install.sh
 
 set -euo pipefail
@@ -14,19 +15,30 @@ SOURCE_AGENTS_DIR="${SCRIPT_DIR}/.opencode/agents"
 SOURCE_COMMANDS_DIR="${SCRIPT_DIR}/.opencode/commands"
 
 USE_SYMLINK=false
+PROJECT_DIR=""
 
 # Parse arguments
-for arg in "$@"; do
-  case "$arg" in
+while [[ $# -gt 0 ]]; do
+  case "$1" in
     --symlink|-s)
       USE_SYMLINK=true
       shift
       ;;
+    --project-dir)
+      PROJECT_DIR="$2"
+      shift 2
+      ;;
     --help|-h)
-      echo "Usage: $0 [--symlink]"
-      echo "  --symlink  Create symlinks instead of copying files."
-      echo "  Set OPENCODE_CONFIG_DIR to override the target config directory."
+      echo "Usage: $0 [--symlink] [--project-dir <path>]"
+      echo "  --symlink       Create symlinks instead of copying files."
+      echo "  --project-dir   Install the pack into a project's .opencode folder."
+      echo "  Set OPENCODE_CONFIG_DIR to override the global config directory."
       exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      echo "Usage: $0 [--symlink] [--project-dir <path>]"
+      exit 1
       ;;
   esac
 done
@@ -34,6 +46,9 @@ done
 # Determine OpenCode config directory
 if [[ -n "${OPENCODE_CONFIG_DIR:-}" ]]; then
   CONFIG_DIR="${OPENCODE_CONFIG_DIR}"
+elif [[ -n "${PROJECT_DIR}" ]]; then
+  # Project-local install: place files under <PROJECT_DIR>/.opencode
+  CONFIG_DIR="$(cd "${PROJECT_DIR}" && pwd)/.opencode"
 elif [[ "${OSTYPE:-}" == darwin* ]]; then
   CONFIG_DIR="${HOME}/Library/Application Support/opencode"
 else
