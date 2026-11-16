@@ -78,8 +78,8 @@ cp .opencode/commands/*.md ~/.config/opencode/commands/
 #### Global install (Windows — PowerShell)
 
 ```powershell
-Copy-Item .opencode\agents\*.md "$env:LOCALAPPDATA\opencode\agents\"
-Copy-Item .opencode\commands\*.md "$env:LOCALAPPDATA\opencode\commands\"
+Copy-Item .opencode\agents\*.md "$env:USERPROFILE\.config\opencode\agents\"
+Copy-Item .opencode\commands\*.md "$env:USERPROFILE\.config\opencode\commands\"
 ```
 
 ### Option 3: Project-local install

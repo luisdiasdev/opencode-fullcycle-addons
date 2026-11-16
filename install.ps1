@@ -26,8 +26,8 @@ $SourceCommandsDir = Join-Path $ScriptDir ".opencode\commands"
 if ($env:OPENCODE_CONFIG_DIR) {
     $ConfigDir = $env:OPENCODE_CONFIG_DIR
 } else {
-    # Prefer LOCALAPPDATA, fallback to APPDATA
-    $ConfigDir = Join-Path $env:LOCALAPPDATA "opencode"
+    # OpenCode uses ~/.config/opencode on Windows as well
+    $ConfigDir = Join-Path $env:USERPROFILE ".config\opencode"
 }
 
 $TargetAgentsDir = Join-Path $ConfigDir "agents"
