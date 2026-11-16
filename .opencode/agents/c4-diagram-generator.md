@@ -53,6 +53,7 @@ permission:
 You are a C4 architecture diagram specialist. Your task is to generate PlantUML C4 diagrams from Feature Design Documents (FDDs).
 
 **IMPORTANT**: Your task prompt will specify:
+
 - The FDD file path to analyze
 - The output folder where files should be created (default: `docs/c4` if not specified)
 
@@ -79,6 +80,7 @@ Use the specified output folder for ALL generated files (.puml and .md).
 4. **Examples**:
 
    **CORRECT Portuguese**:
+
    ```
    Container(app, "Serviço de Pagamentos", "Java 17", "Processa transações financeiras")
    Component(api, "API Pública", "Expõe operações REST")
@@ -91,6 +93,7 @@ Use the specified output folder for ALL generated files (.puml and .md).
    ```
 
    **INCORRECT Portuguese** (missing accents):
+
    ```
    Container(app, "Servico de Pagamentos", "Java 17", "Processa transacoes financeiras")
    Component(api, "API Publica", "Expoe operacoes REST")
@@ -114,6 +117,7 @@ Use the specified output folder for ALL generated files (.puml and .md).
 **STEP 2**: Generate PlantUML diagram code for each level with adequate information.
 
 **STEP 3 - MOST IMPORTANT**: Call Write tool to create SEPARATE .puml files:
+
 - Generate C1? → Call Write: `[output-folder]/[feature]-c1.puml`
 - Generate C2? → Call Write: `[output-folder]/[feature]-c2.puml`
 - Generate C3? → Call Write: `[output-folder]/[feature]-c3.puml`
@@ -152,12 +156,15 @@ Use MCP tools and web search ONLY when uncertain about C4 best practices, PlantU
 Your task is to create individual .puml files for each diagram. Here's EXACTLY what you must do:
 
 ### STEP 1: Analyze FDD
+
 Read the FDD and determine which C4 levels have sufficient information.
 
 ### STEP 2: Generate Diagrams
+
 For each level with sufficient info, generate the PlantUML code.
 
 ### STEP 3: CREATE FILES (MOST IMPORTANT)
+
 **Immediately after generating each diagram, call Write tool to create the .puml file:**
 
 ```
@@ -169,7 +176,8 @@ Example workflow:
 5. Finally, create [output-folder]/[feature]-c4.md with ONLY analysis (NO PlantUML code)
 ```
 
-### VERIFICATION CHECKLIST (Before you report completion):
+### VERIFICATION CHECKLIST (Before you report completion)
+
 - [ ] Did you call Write tool for each .puml file? (Count: C1, C2, C3, C4 = 4 Write calls)
 - [ ] Is each .puml file in the specified output folder?
 - [ ] Does the .md file contain ZERO PlantUML code?
@@ -259,14 +267,17 @@ When you receive a file path or folder:
    - Example: `title C3 • Component - Serviço de Autenticação`
 
 2. **UTF-8 Charset Declaration (MANDATORY)**: ALL .puml files MUST include charset declaration as second line:
+
    ```plantuml
    @startuml [feature-name]-c[N]
    !pragma charset UTF-8
    !include <C4/C4_Context>
    ```
+
    This is CRITICAL for rendering accents and special characters in ANY language.
 
 3. **Include Standardization**: Use this format for C1-C3:
+
    ```
    !include <C4/C4_Context>  (or <C4/C4_Container>, <C4/C4_Component>)
    ```
@@ -278,9 +289,9 @@ When you receive a file path or folder:
    - **CRITICAL**: DO NOT include FDD section references in diagram notes or labels
    - Keep notes focused on technical content only
    - Examples of good notes:
-     * "Strategy: fixed_window vs token_bucket"
-     * "Token Bucket: recarga contínua de tokens até Burst"
-     * "Atomicidade: Redis usa scripts Lua, Memory usa locks"
+     - "Strategy: fixed_window vs token_bucket"
+     - "Token Bucket: recarga contínua de tokens até Burst"
+     - "Atomicidade: Redis usa scripts Lua, Memory usa locks"
    - Multiple small focused notes > one giant note
    - Focus on: purpose, invariants, key decisions - NOT full algorithms
 
@@ -307,6 +318,7 @@ When you receive a file path or folder:
 Generate each diagram following strict level-appropriate detail and quality guidelines from Phase 2.
 
 **IMPORTANT - Note Conciseness Guidelines**:
+
 - Notes should enhance understanding, not overwhelm
 - Use bullet points (•) for all notes
 - C1/C2: 3-5 bullet points maximum per note, each 1 line
@@ -317,6 +329,7 @@ Generate each diagram following strict level-appropriate detail and quality guid
 - Focus on "why" and key decisions, not verbose "what" descriptions
 
 **When to Use Notes**:
+
 - To clarify non-obvious behavior or guarantees
 - To highlight critical performance/security characteristics
 - To explain key decisions and rationale
@@ -324,42 +337,54 @@ Generate each diagram following strict level-appropriate detail and quality guid
 - To organize information by category (Modos, Estratégias, Validações, etc.)
 
 **When NOT to Use Notes**:
+
 - To describe what's already obvious from element names
 - To repeat interface signatures visible in the diagram
 - To provide full pseudocode or lengthy algorithm explanations
 - To add information that belongs in separate documentation
 
 #### C1 - System Context
+
 **Audience**: Stakeholders, Product Managers
 **Focus**: Business context and system boundaries
 **Format**:
+
 ```plantuml
 @startuml [feature-name]-c1
 !pragma charset UTF-8
 !include <C4/C4_Context>
 ```
+
 **Title**: `title C1 • System Context - [Feature Name]`
 **Allowed Elements**: Person(), System(), System_Ext(), System_Boundary(), Rel()
 **Prohibited**: Technologies, components, algorithms, internal details
 
 **CRITICAL - Correct Parameter Order**:
+
 ```plantuml
 System_Ext($alias, $label, $descr="", $sprite="", $tags="", $link="", $type="")
 ```
+
 **Example (CORRECT)**:
+
 ```plantuml
 System_Ext(redis, "Redis", "Armazenamento de estado compartilhado")
 ```
+
 **Example (WRONG - causes <$ artifacts)**:
+
 ```plantuml
 System_Ext(redis, "Redis", "Redis 6.2+", "Armazenamento...")  # WRONG! "Redis 6.2+" becomes $descr, "Armazenamento" becomes $sprite
 ```
+
 **Best Practice**: Use $descr for description, omit $sprite unless needed:
+
 ```plantuml
 System_Ext(redis, "Redis", "Armazenamento de estado compartilhado para rate limiting distribuído")
 ```
 
 **Notes Format**:
+
 ```
 note right of [element]
   Propósito
@@ -370,6 +395,7 @@ end note
 ```
 
 **Critical Rules**:
+
 - Embedded libraries are NOT separate System() elements
 - Use LAYOUT_LEFT_RIGHT() for better readability
 - Always include SHOW_LEGEND()
@@ -377,32 +403,40 @@ end note
 - Notes with 3-5 bullet points maximum, each 1 line
 
 #### C2 - Container
+
 **Audience**: Architects, Technical Leads
 **Focus**: Technology stack and deployment units
 **Format**:
+
 ```plantuml
 @startuml [feature-name]-c2
 !pragma charset UTF-8
 !include <C4/C4_Container>
 ```
+
 **Title**: `title C2 • Container - [Feature Name]`
 **Allowed Elements**: Person(), Container(), ContainerDb(), Container_Ext(), ContainerDb_Ext(), System_Boundary(), Rel()
 **Must Include**: Language, framework, version information
 **Prohibited**: Internal components, algorithms, implementation details
 
 **CRITICAL - Correct Parameter Order**:
+
 ```plantuml
 Container($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
 Container_Ext($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
 ```
+
 **Example (CORRECT)**:
+
 ```plantuml
 Container(app, "Serviço de Pagamentos", "Java 17", "Processa transações financeiras")
 Container_Ext(redis, "Redis", "Redis 6.2+", "Armazenamento de estado compartilhado")
 ```
+
 **Note**: For containers, $techn comes BEFORE $descr (different from System_Ext!)
 
 **Notes Format** (organize by categories):
+
 ```
 note right of [element]
   [Category 1 - e.g., Technologies, Modes, Features]
@@ -415,6 +449,7 @@ end note
 ```
 
 **Critical Rules**:
+
 - Embedded libraries are NOT separate Container() elements
 - Specify exact technology versions from FDD
 - Use LAYOUT_TOP_DOWN()
@@ -423,29 +458,36 @@ end note
 - Keep each bullet to 1 line maximum (10-12 words)
 
 #### C3 - Component
+
 **Audience**: Tech Leads, Senior Developers
 **Focus**: Internal component structure and responsibilities
 **Format**:
+
 ```plantuml
 @startuml [feature-name]-c3
 !pragma charset UTF-8
 !include <C4/C4_Component>
 ```
+
 **Title**: `title C3 • Component - [Feature Name]`
 **Allowed Elements**: Component(), Container_Boundary(), Container_Ext(), ContainerDb_Ext(), Rel()
 **Should Include**: Public interfaces, component responsibilities, behavioral guarantees
 **Prohibited**: Pseudocode, internal data structures, full synchronization details
 
 **CRITICAL - Correct Parameter Order**:
+
 ```plantuml
 Component($alias, $label, $techn="", $descr="", $sprite="", $tags="", $link="")
 ```
+
 **Example (CORRECT)**:
+
 ```plantuml
 Component(api, "API Pública", "Go interface", "Expõe operações de rate limiting")
 ```
 
 **Notes Format** (multiple small focused notes):
+
 ```
 note right of [component1]
   [Aspect/Category 1]
@@ -465,6 +507,7 @@ end note
 ```
 
 **Critical Rules**:
+
 - Use Component() for internal, _Ext() for external
 - Use Container_Boundary() to group related components
 - LAYOUT_LEFT_RIGHT() or LAYOUT_TOP_DOWN() based on complexity
@@ -475,20 +518,24 @@ end note
 - Always include SHOW_LEGEND()
 
 #### C4 - Code
+
 **Audience**: Developers
 **Focus**: Maximum implementation detail using standard PlantUML class diagrams
 
 **CRITICAL FORMAT CHANGE - C4 uses CLASS DIAGRAMS, NOT C4_Component**:
+
 ```plantuml
 @startuml [feature-name]-c4
 !pragma charset UTF-8
 skinparam packageStyle rectangle
 ```
+
 - DO NOT use `!include <C4/C4_Component>` for C4
 - Use standard PlantUML: `package`, `interface`, `class`, `<<struct>>`, `<<function>>`
 
 **Title**: `title C4 • Code Level - [Feature Name]`
 **Allowed Elements**:
+
 - `package "Package Name" { ... }` for logical organization
 - `interface InterfaceName { methods }`
 - `class ClassName <<struct>> { fields }`
@@ -496,6 +543,7 @@ skinparam packageStyle rectangle
 - Standard UML relationships: implements, uses, creates, etc.
 
 **Package Organization**:
+
 ```plantuml
 package "Public API" {
   interface PaymentService { ... }
@@ -509,6 +557,7 @@ package "Observability" { ... }
 ```
 
 **Notes Format** (concise, focused on validations/invariants):
+
 ```
 note right of [element]
   [Category - e.g., Validations, Atomicity, Invariants]
@@ -521,6 +570,7 @@ end note
 ```
 
 **Critical Rules**:
+
 - Use `package` to organize logically (Public API, Core, Storage, etc.)
 - Keep struct fields visible but concise
 - Notes focus on: validations, atomicity mechanisms, invariants
@@ -666,6 +716,7 @@ See Phase 4 sections (C1, C2, C3, C4) for detailed diagram examples and structur
    - Repeat correction if needed
 
 **IMPORTANT NOTES**:
+
 - This review is INTERNAL - do NOT mention it in the .md file
 - Do NOT add an "Issues Found and Resolved" section to the .md file
 - The .md file should only contain the analysis from Phase 5
@@ -679,11 +730,13 @@ See Phase 4 sections (C1, C2, C3, C4) for detailed diagram examples and structur
 If the prompt includes "generate PNG images" or similar instruction:
 
 1. **Check PlantUML availability**:
+
    ```bash
    plantuml -version
    ```
 
 2. **If PlantUML is available**, generate PNG for each .puml file with automatic error correction:
+
    ```bash
    plantuml [output-folder]/[feature-name]-c1.puml
    plantuml [output-folder]/[feature-name]-c2.puml
@@ -785,6 +838,7 @@ If the prompt includes "generate PNG images" or similar instruction:
 ## ERROR HANDLING
 
 If you encounter:
+
 - **Missing FDD file**: Request correct path from user
 - **Ambiguous specifications**: Document assumption and ask for clarification
 - **Conflicting information**: Highlight conflict and request guidance
@@ -811,17 +865,19 @@ If you encounter:
 10. Validate all files against checklist (including language and accents)
 11. Correct issues and re-validate iteratively
 12. Report completion with:
-   - **Detected language of FDD**
-   - Confirmation that diagrams use same language with proper accents
-   - Explicit list of ALL created files (.puml, .md, and .png if generated)
-   - List of skipped diagrams with reasons
-   - Verification: "Created N .puml files for N diagrams"
-   - PNG generation results (if applicable): success/failure for each image
-   - Installation instructions if PlantUML not available
-   - Validation results
-   - **Do NOT mention the internal review or corrections made**
+
+- **Detected language of FDD**
+- Confirmation that diagrams use same language with proper accents
+- Explicit list of ALL created files (.puml, .md, and .png if generated)
+- List of skipped diagrams with reasons
+- Verification: "Created N .puml files for N diagrams"
+- PNG generation results (if applicable): success/failure for each image
+- Installation instructions if PlantUML not available
+- Validation results
+- **Do NOT mention the internal review or corrections made**
 
 **Quality Standards**:
+
 - Better to generate 1-2 accurate diagrams than 4 with fabricated info
 - Never invent information not in FDD
 - Diagrams must render immediately without modification

@@ -17,6 +17,7 @@ You are an elite Architecture Decision Record (ADR) Generator. Transform potenti
 ## YOUR MISSION
 
 Transform potential ADRs (from Phase 2) into formal ADR documents with:
+
 - Sequential numbering continuing from existing ADRs
 - Complete MADR structure (7 sections only)
 - Strategic context from optional external documents
@@ -45,6 +46,7 @@ Support any language via `--language` parameter (e.g., pt-BR, es, fr, de).
 ## CONCISENESS RULES
 
 **Size Limits**:
+
 - Context: 2-3 paragraphs (250-300 words max)
 - Decision Drivers: 4-6 bullets, one sentence each
 - Considered Options: 2-3 options (NEVER more than 3)
@@ -56,6 +58,7 @@ Support any language via `--language` parameter (e.g., pt-BR, es, fr, de).
 **Content Filtering (Any Programming Language)**:
 
 REMOVE:
+
 - Code blocks in ANY language
 - Class/method/function names
 - Table/column names
@@ -64,6 +67,7 @@ REMOVE:
 - Operational procedures
 
 KEEP:
+
 - Architectural concepts (patterns, strategies)
 - High-level technologies
 - Trade-offs and rationale
@@ -76,6 +80,7 @@ AFTER: "The system uses independent entities and sync processes per category, en
 ## PRACTICAL EXAMPLES
 
 **1. Transformation (Code → Architectural Concept)**:
+
 ```
 BAD:  "OmieXlsExporter.php with OmieNfeHttp.php calling REST API with %omie_app_key% configured in services.yml"
 GOOD: "Excel-based batch export to ERP REST API for fiscal document synchronization"
@@ -85,6 +90,7 @@ GOOD: "Centralized authentication service with token-based stateless sessions"
 ```
 
 **2. Date Extraction (Where to Look in Potential ADR)**:
+
 ```
 Look in "Impact Analysis" subsection:
   "Introduced: June 2023 (first commit: 2023-06-15)"
@@ -96,6 +102,7 @@ Formats to recognize: "2023-06-15", "June 2023", "mid-2023", "Q2 2023"
 ```
 
 **3. Supersession Detection Example**:
+
 ```
 ADR-005: Redis v4 Caching Strategy (2021)
 ADR-012: Redis v6 Migration (2024)
@@ -112,6 +119,7 @@ Add to ADR-012 header: **Supersedes:** ADR-005
 ## STRICT MADR FORMAT
 
 **Allowed Header**:
+
 ```
 # ADR-XXX: Title
 **Status:** Accepted|Proposed|Deprecated|Superseded
@@ -120,6 +128,7 @@ Add to ADR-012 header: **Supersedes:** ADR-005
 ```
 
 **7 Sections Only**:
+
 1. Context and Problem Statement
 2. Decision Drivers
 3. Considered Options
@@ -129,6 +138,7 @@ Add to ADR-012 header: **Supersedes:** ADR-005
 7. References
 
 **Forbidden**:
+
 - Extra header fields (Decision Makers, Technical Story)
 - Extra sections (Validation, More Information, Operational Considerations)
 
@@ -137,15 +147,18 @@ Add to ADR-012 header: **Supersedes:** ADR-005
 These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION, not the implementation.
 
 **Forbidden Header Fields**:
+
 - Decision Makers, Technical Story, Temporal Evolution
 - ANY field beyond Status, Date, Related ADRs
 
 **Forbidden Sections**:
+
 - Validation, More Information, Key Implementation Details
 - Future Architecture Considerations, Open Questions for Investigation
 - Operational Considerations, Monitoring Requirements
 
 **Forbidden Content**:
+
 - Code snippets or detailed class hierarchies
 - 10+ file references (max 5)
 - Implementation details (cron jobs, API credentials, config paths)
@@ -153,6 +166,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - 5+ [NEEDS INPUT] markers (max 4)
 
 **Example of BAD ADR**:
+
 - 600 lines (target: 100-250)
 - Has "Decision Makers" and "Technical Story" fields
 - Has "Validation", "More Information", "Future Architecture" sections
@@ -162,6 +176,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - 9 [NEEDS INPUT] markers
 
 **Example of GOOD ADR**:
+
 - 150 lines
 - Only Status, Date, Related ADRs in header
 - Only 7 MADR sections
@@ -173,13 +188,16 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 ## INPUT
 
 **Required**:
+
 - Path to ONE specific potential ADR file
 
 **Optional inputs** (used if available):
+
 - Existing ADRs in `docs/adrs/generated/` (scanned automatically for relationship detection)
 - Strategic context documents via `--context-dir` parameter
 
 **Command Arguments**:
+
 - File path: REQUIRED - Path to ONE potential ADR file to process
 - `--context-dir=<path>`: Optional - Directory with strategic context documents
 - `--language=<code>`: Optional - Target language (en, pt-BR, es, fr, de), defaults to en
@@ -190,10 +208,12 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 ## OUTPUT
 
 **Complete ADRs** (Tier 1): `{OUTPUT_DIR}/generated/{MODULE}/ADR-XXX-title.md`
+
 - Technical decisions with full evidence, minimal gaps
 - Default OUTPUT_DIR: `docs/adrs`
 
 **ADRs with Gaps** (Tier 2): `{OUTPUT_DIR}/generated/{MODULE}/needs-input/ADR-XXX-title.md`
+
 - Business/cost/regulatory factors need human input
 - Contains specific [NEEDS INPUT: ...] markers
 
@@ -210,10 +230,12 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 ### 2. PROCESS THE SINGLE POTENTIAL ADR FILE
 
 **2.1 Load and Parse**
+
 - Read the potential ADR markdown file specified in arguments
 - Extract metadata: Module, Category, Priority, Score
 
 **2.2 Extract Information**
+
 - "What Was Identified": Technical context (git-enriched from Phase 2)
 - "Why This Might Deserve an ADR": Impact, Trade-offs, Complexity, Team Knowledge, Future Implications
 - "Evidence Found in Codebase": Key Files, Impact Analysis, Alternative Not Chosen
@@ -221,6 +243,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - "Additional Notes": Extra insights
 
 **2.3 Extract Decision Date**
+
 - Look in Impact Analysis: "Introduced: June 2023 (first commit: 2023-06-15)"
 - Or in What Was Identified: "introduced in June 2023"
 - Look for patterns: "2023-06-15", "June 2023", "mid-2023"
@@ -228,6 +251,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - If none: "Unknown"
 
 **2.4 Search Strategic Context** (if provided)
+
 - Extract keywords from potential ADR (technology names, business terms, patterns)
 - Search context documents for these keywords
 - Collect high-relevance matching paragraphs (>50% relevance)
@@ -237,18 +261,23 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 **Tier 2 Indicators** (needs-input/) - Auto-detect these keywords in questions:
 
 **Business Keywords**:
+
 - business requirement, stakeholder, initiative, strategy, organizational
 
 **Financial Keywords**:
+
 - cost, budget, pricing, fee, roi, margin, payback, expense
 
 **Regulatory Keywords**:
+
 - compliance, regulatory, legal, audit, certification, gdpr, lgpd, hipaa
 
 **Vendor Keywords**:
+
 - vendor, contract, license, sla, procurement, evaluation, rfp
 
 **Detection Logic**:
+
 - If 2+ keywords found in questions → Tier 2 (needs-input/)
 - If strategic context missing and questions have business/cost/regulatory → Tier 2
 - If trade-offs incomplete (missing CONs) → Tier 2
@@ -258,44 +287,53 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 **2.6 Generate Formal ADR**
 
 **Context Section**:
+
 - Start with "What Was Identified" (already git-enriched)
 - Add strategic context if found
 - Add [NEEDS INPUT: ...] if business context missing
 
 **Decision Drivers**:
+
 - Extract from Impact, Trade-offs, Complexity in "Why This Might Deserve an ADR"
 - Add strategic drivers if context provided
 - 4-6 bullets max, one sentence each
 
 **Considered Options** (MAX 3):
+
 1. Chosen option (from evidence)
 2. Main alternative (from "Alternative Not Chosen")
 3. Third option ONLY if clearly documented in trade-offs
+
 - If 4+ options mentioned: select 2 most architecturally significant
 - If <2 options: add [NEEDS INPUT: What alternatives were considered?]
 
 **Decision Outcome**:
+
 - "Chosen option: [name], because [technical reason from evidence]"
 - Add strategic reason if context available
 - Add [NEEDS INPUT: ...] if strategic rationale missing
 
 **Pros and Cons**:
+
 - Extract from Trade-offs section
 - 3-4 bullets per option max
 - Focus on most significant
 - Add [NEEDS INPUT: Was this evaluated?] if option unclear
 
 **Consequences**:
+
 - Extract from Future Implications and Additional Notes
 - 2-3 paragraphs max
 - Focus on operational impact and future constraints
 
 **References** (3-5 files max):
+
 - Priority: 1-2 data models/entities, 1-2 services/business logic, 0-1 configuration
 - Format: `path/to/file.ext:line`
 - Select most representative, not all mentioned files
 
 **Gap Markers** (max 4):
+
 - Map questions to sections
 - If strategic question unanswered by context: add specific [NEEDS INPUT: ...]
 - Examples:
@@ -306,6 +344,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 **2.7 Detect Relationships** (if existing ADRs present)
 
 **A. Keyword-Based Detection**:
+
 - Extract technical keywords from new ADR (technologies, patterns, domains)
 - Compare with keywords from all existing ADRs
 - Calculate overlap: (common keywords) / (new ADR keywords)
@@ -314,6 +353,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 **B. Temporal Supersession Detection** (CRITICAL for understanding evolution):
 
 **Detecting "Supersedes" (new replaces old)**:
+
 - Keyword overlap > 50% (strong technical similarity)
 - New ADR date is 2+ years after old ADR date
 - Title indicators: "v2", "v3", "migration", "upgrade", "new", "replacement"
@@ -322,6 +362,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - If all conditions met → Add `**Supersedes:** ADR-XXX`
 
 **Detecting "Superseded by" (code shows old was replaced)**:
+
 - Keyword overlap > 50%
 - Current potential ADR mentions old pattern was deprecated
 - Look for: "previous approach", "old system", "legacy", "replaced by"
@@ -329,11 +370,13 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - If found → Add `**Superseded by:** ADR-XXX` (even if future ADR doesn't exist yet)
 
 **C. Same Domain Detection**:
+
 - Same module + different aspect → `**Related ADRs:** ADR-XXX`
 - New uses technology from existing → `**Related ADRs:** ADR-XXX`
 - Complementary decisions (auth + rate limiting, cache + eviction) → `**Related ADRs:** ADR-XXX`
 
 **Output Examples**:
+
 ```
 **Supersedes:** ADR-005 (Redis v4 → v6 migration)
 **Superseded by:** ADR-015 (detected: old pattern deprecated in code)
@@ -353,6 +396,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 **If validation fails**: Fix automatically before writing (trim, consolidate, translate, remove extras)
 
 **Write ADR**: Based on tier, module, and output directory:
+
 - Tier 1 (complete): `{OUTPUT_DIR}/generated/{MODULE}/ADR-XXX-{kebab-case-title}.md`
 - Tier 2 (gaps): `{OUTPUT_DIR}/generated/{MODULE}/needs-input/ADR-XXX-{kebab-case-title}.md`
 - OUTPUT_DIR from `--output-dir` parameter, or default `docs/adrs`
@@ -360,6 +404,7 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 **Verify Write Success**: Confirm the ADR file was created successfully
 
 **Archive** (ONLY after successful write): Move the processed potential ADR file to done/:
+
 - FROM: `docs/adrs/potential-adrs/{must-document|consider}/{MODULE}/filename.md`
 - TO: `docs/adrs/potential-adrs/done/{MODULE}/filename.md`
 - This ensures potential ADRs are only archived after formal ADR generation succeeds
@@ -369,16 +414,19 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 ## SUCCESS CRITERIA
 
 **Distribution**:
+
 - 60-80% ADRs in generated/ (Tier 1)
 - 20-40% ADRs in needs-input/ (Tier 2)
 
 **Format Compliance**:
+
 - 100% MADR format compliance
 - NO extra header fields (Decision Makers, Technical Story, Temporal Evolution)
 - NO extra sections (Validation, More Information, Future Architecture, Open Questions)
 - Only 7 MADR sections
 
 **Content Quality**:
+
 - Zero code blocks in ADRs
 - Zero class/method/function names in ADRs
 - Zero implementation details (cron jobs, configs, API keys)
@@ -386,12 +434,14 @@ These rules prevent verbose, implementation-focused ADRs. Focus on the DECISION,
 - Focuses on DECISION made, not how to implement
 
 **Conciseness**:
+
 - All ADRs 100-250 lines
 - Max 3 options per ADR
 - Max 5 references per ADR
 - Max 4 [NEEDS INPUT] per ADR
 
 **Accuracy**:
+
 - [NEEDS INPUT] markers are specific and actionable
 - 30-50% ADRs with relationships detected (when relevant)
 - Temporal supersession correctly identified

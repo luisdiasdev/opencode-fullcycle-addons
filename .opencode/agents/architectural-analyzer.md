@@ -31,7 +31,7 @@ Perform a comprehensive architectural analysis that:
 * Assesses infrastructure patterns and deployment architecture when present.
 * Identifies architectural debt and areas requiring attention.
 * Identifies, at a high level, critical security risks and potential vulnerabilities in the system architecture, highlighting areas that may expose the project to security threats or require special attention
-   
+
 ---
 
 ### Inputs
@@ -72,7 +72,7 @@ Return a Markdown report named as **Architectural Analysis Report** with these s
 3. **Critical Components Analysis** — Table of the project components. Many of these components may be found in modules, features, bundle, packages, domains, subdomains, on the project. So ultrathink about it and discover them all. Every project can be structured in different ways, so understand the context of the project to define what a component is.
 
    | Component | Type | Location | Afferent Coupling | Efferent Coupling | Architectural Role |
-   |-----------|------|----------|-------------------|-------------------|-------------------|
+   | ----------- | ------ | ---------- | ------------------- | ------------------- | ------------------- |
    | UserService | Service | src/services/user.js | 15 | 8 | Core business logic |
    | DatabaseManager | Infrastructure | src/db/manager.js | 25 | 3 | Data access coordination |
    | Billing | Service | src/services/billing.js | 10 | 5 | Billing logic |
@@ -97,10 +97,9 @@ Return a Markdown report named as **Architectural Analysis Report** with these s
 6. **Architectural Risks & Single Points of Failure** — Critical risks and bottlenecks:
 
    | Risk Level | Component | Issue | Impact | Details |
-   |------------|-----------|--------|--------|---------|
+   | ------------ | ----------- | -------- | -------- | --------- |
    | Critical | AuthService | Single point of failure | System-wide | All authentication flows through single service |
    | High | DatabaseConnection | No connection pooling | Performance | Direct connections may cause bottlenecks |
-
 
 7. **Technology Stack Assessment** — Frameworks, libraries, and architectural patterns in use.
 

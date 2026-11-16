@@ -5,23 +5,27 @@ description: "Create a modular codebase mapping to prepare for ADR identificatio
 Launch the `adr-analyzer` agent to execute Phase 1: Codebase Mapping.
 
 This will:
+
 1. Analyze the entire project structure
 2. Identify technologies, frameworks, and architectural patterns
 3. Divide the codebase into logical, independent modules
 4. Create mapping.md with modular structure
 
 The mapping file will include:
+
 - Project overview and technology stack
 - System modules with IDs, scope estimates, and descriptions
 - Cross-cutting concerns (infrastructure, authentication, data layer, etc.)
 - Guidelines for Phase 2 analysis
 
 **Usage**:
+
 ```
 /adr-map [--project-dir=PATH] [--context-dir=PATH] [--output-dir=PATH]
 ```
 
 **Examples**:
+
 ```
 /adr-map
 # Maps current directory, outputs to docs/adrs/mapping.md
@@ -53,6 +57,7 @@ For large codebases (10,000+ files), this creates a foundation for incremental a
 When the user invokes `/adr-map`:
 
 Parse arguments to extract:
+
 - `--project-dir=<path>`: Optional directory to map (default: `.` - current working directory)
 - `--context-dir=<path>`: Optional context directory with docs/diagrams (default: none)
 - `--output-dir=<path>`: Optional output directory (default: `docs/adrs`)
@@ -60,6 +65,7 @@ Parse arguments to extract:
 Launch the `adr-analyzer` agent with the Task tool:
 
 **Without options:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -67,6 +73,7 @@ Task tool:
 ```
 
 **With --project-dir:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -74,6 +81,7 @@ Task tool:
 ```
 
 **With --context-dir:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -81,6 +89,7 @@ Task tool:
 ```
 
 **With multiple options:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -88,6 +97,7 @@ Task tool:
 ```
 
 The agent will:
+
 1. Analyze the project at --project-dir (or current directory)
 2. Load context files from --context-dir if provided (all file types)
 3. Create `{OUTPUT_DIR}/mapping.md` with complete codebase analysis and optional context notes

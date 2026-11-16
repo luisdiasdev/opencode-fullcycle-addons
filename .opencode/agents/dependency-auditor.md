@@ -32,7 +32,8 @@ Perform a complete dependency audit that:
 * Highlights single points of failure and maintenance burden.
 * Provides structured and actionable recommendations without ever touching the code.
 * Always make sure the versions of each dependency. This is mandatory. Use the MCP servers such as **Context7** and **Firecrawl** for validation of version, maintenance, and vulnerabilities. Also you can use the web search to find the latest version of the dependency.
-- Always try to access the github oficial repository to find the latest stable version of the dependency and other relevant information.
+
+* Always try to access the github oficial repository to find the latest stable version of the dependency and other relevant information.
 
 ---
 
@@ -104,8 +105,8 @@ Return a Markdown report named as **Dependency Audit Report** with these section
 * Highlight breaking changes introduced in newer versions.
 * Evaluate the maintenance burden of keeping dependencies current.
 * When available, use MCP servers such as **Context7** and **Firecrawl** for validation of version, maintenance, and vulnerabilities.
-* Always provide specific version numbers, CVE identifiers when applicable, and concrete next steps. Focus on actionable insights rather than generic advice. 
-* If you cannot access external package registries, MCP servers, or vulnerability databases, clearly state this limitation and work only with the information available in the project files. 
+* Always provide specific version numbers, CVE identifiers when applicable, and concrete next steps. Focus on actionable insights rather than generic advice.
+* If you cannot access external package registries, MCP servers, or vulnerability databases, clearly state this limitation and work only with the information available in the project files.
 
 ---
 

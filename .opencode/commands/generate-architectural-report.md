@@ -6,6 +6,7 @@ description: "Run a full architectural analysis including dependencies, architec
 You MUST coordinate a multi-phase workflow invoking specialized agents and managing state via MANIFEST.md.
 
 Extract the following parameters from command arguments:
+
 - project-folder (optional, default: entire project root)
 - output-folder (optional, default: "docs/agents")
 - ignore-folders (optional, comma-separated list)
@@ -17,6 +18,7 @@ Extract the following parameters from command arguments:
 ### Phase 1: Initialize Project Structure and MANIFEST
 
 Create the base folder structure:
+
 ```
 {output-folder}/
 ├── dependency-auditor/
@@ -78,6 +80,7 @@ Folders to ignore: [IGNORE_FOLDERS]
 Execute your complete workflow following all internal guidelines.
 
 CRITICAL REMINDERS:
+
 - Do not modify any project files
 - Use MCP servers (Context7, Firecrawl) for validation when available
 - Always verify dependency versions externally
@@ -85,6 +88,7 @@ CRITICAL REMINDERS:
 - Save report to: [OUTPUT_FOLDER]/dependency-auditor/dependencies-report-{YYYY-MM-DD HH:MM:SS}.md
 
 REPORT must include:
+
 - All sections specified in agent guidelines
 - Analysis of the 10 most critical files
 - Explicit confirmation of saved file path
@@ -103,6 +107,7 @@ Folders to ignore: [IGNORE_FOLDERS]
 Execute your complete workflow following all internal guidelines.
 
 CRITICAL REMINDERS:
+
 - Do not modify any project files
 - Focus on architecturally significant components
 - Identify ALL components in the Critical Components Analysis section
@@ -110,6 +115,7 @@ CRITICAL REMINDERS:
 - Save report to: [OUTPUT_FOLDER]/architectural-analyzer/architectural-report-{YYYY-MM-DD HH:MM:SS}.md
 
 REPORT must include:
+
 - All sections specified in agent guidelines
 - Complete list of components in Critical Components Analysis table
 - Return the absolute path to saved file AND the list of all component names identified"
@@ -117,6 +123,7 @@ REPORT must include:
 **After both agents complete:**
 
 Update MANIFEST.md using the Edit tool:
+
 - Set dependency-auditor status to COMPLETED with timestamp and output path
 - Set architectural-analyzer status to COMPLETED with timestamp and output path
 - Add all components found to the Components section with PENDING status
@@ -141,6 +148,7 @@ Folders to ignore: [IGNORE_FOLDERS]
 Execute your complete workflow following all internal guidelines.
 
 CRITICAL REMINDERS:
+
 - Analyze ONLY the component specified: [COMPONENT_NAME]
 - Do not modify any project files
 - Extract all business rules with detailed breakdown
@@ -149,6 +157,7 @@ CRITICAL REMINDERS:
 - Save report to: [OUTPUT_FOLDER]/component-deep-analyzer/component-analysis-[COMPONENT_NAME]-{YYYY-MM-DD HH:MM:SS}.md
 
 REPORT must include:
+
 - All sections specified in agent guidelines
 - Detailed breakdown of ALL business rules
 - Test coverage analysis with test file locations
@@ -159,12 +168,14 @@ Replace [COMPONENT_NAME] with the actual component name for each invocation.
 **After each component agent completes:**
 
 Update MANIFEST.md using the Edit tool:
+
 - Set component status to COMPLETED with timestamp and output path
 - If any component fails, set status to FAILED with error details
 
 **Handling Failures:**
 
 If any component analysis fails or times out:
+
 - Update MANIFEST.md with FAILED status
 - Continue with other components
 - At the end of Phase 3, report failed components to user
@@ -177,6 +188,7 @@ If any component analysis fails or times out:
 Read MANIFEST.md to verify all tasks are COMPLETED.
 
 Use Bash tool to verify all report files exist at the specified paths:
+
 ```bash
 ls [OUTPUT_FOLDER]/dependency-auditor/*.md
 ls [OUTPUT_FOLDER]/architectural-analyzer/*.md
@@ -184,6 +196,7 @@ ls [OUTPUT_FOLDER]/component-deep-analyzer/*.md
 ```
 
 Update MANIFEST.md with final status:
+
 - If all tasks completed: Set "Execution Status: COMPLETED"
 - If any tasks failed: Set "Execution Status: PARTIAL" and list failed tasks
 - Add completion timestamp
@@ -236,6 +249,7 @@ See [MANIFEST.md](./MANIFEST.md) for complete list of all generated reports.
 ```
 
 IMPORTANT:
+
 - Do NOT include recommendations or action plans
 - ONLY summarize findings from the reports
 - Keep it factual and objective
@@ -313,6 +327,7 @@ If the workflow is interrupted:
 5. Continue execution without re-running completed tasks
 
 If a specific agent fails:
+
 1. Update MANIFEST.md with FAILED status and error message
 2. Continue with other agents
 3. Report failures to user at end of phase

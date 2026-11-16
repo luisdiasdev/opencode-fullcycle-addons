@@ -6,7 +6,10 @@ The ADRs Management pack provides a comprehensive 3-phase workflow for creating,
 
 ## Installation
 
-Install the agents and commands as described in the [README](../README.md#installation) (copy all files, or just the ones for this pack), then restart OpenCode.
+Install the agents and commands as described in the [README](../README.md#installation).
+The easiest way is to use the provided install script (`./install.sh` or `.\install.ps1`),
+then restart OpenCode. You can also copy only the files for this pack if you do not need
+the others.
 
 ## Available Commands
 
@@ -15,16 +18,19 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Description**: Creates a modular codebase mapping to prepare for ADR identification (Phase 1). Analyzes the entire project structure, identifies technologies and architectural patterns, and divides the codebase into logical modules.
 
 **Syntax**:
+
 ```bash
 /adr-map [--project-dir=PATH] [--context-dir=PATH] [--output-dir=PATH]
 ```
 
 **Parameters**:
+
 - `--project-dir=PATH`: Optional - Directory to map (default: current directory)
 - `--context-dir=PATH`: Optional - Directory with context files (docs, diagrams, images, PDFs) to inform mapping
 - `--output-dir=PATH`: Optional - Base output directory (default: `docs/adrs`)
 
 **Examples**:
+
 ```bash
 # Map current directory
 /adr-map
@@ -40,6 +46,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Output**: Creates `{OUTPUT_DIR}/mapping.md` with:
+
 - Project overview and technology stack
 - System modules with IDs and descriptions
 - Cross-cutting concerns
@@ -54,16 +61,19 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Prerequisites**: Run `/adr-map` first if `mapping.md` doesn't exist.
 
 **Syntax**:
+
 ```bash
 /adr-identify [module-ids] [--output-dir=PATH] [--adrs-dir=PATH]
 ```
 
 **Parameters**:
+
 - `module-ids`: Optional - One or more module identifiers (e.g., AUTH, DATA, API). If omitted, prompts for selection.
 - `--output-dir=PATH`: Optional - Base output directory (default: `docs/adrs`)
 - `--adrs-dir=PATH`: Optional - Directory with existing ADRs for context (default: `{OUTPUT_DIR}/generated/`)
 
 **Examples**:
+
 ```bash
 # Prompt for module selection
 /adr-identify
@@ -82,6 +92,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Output Structure**:
+
 ```
 {OUTPUT_DIR}/potential-adrs/
 ├── must-document/    # High priority (score ≥100)
@@ -93,6 +104,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **How It Works**:
+
 - Scoring: 3 dimensions (Scope+Impact, Cost to Change, Team Knowledge) - 150 points total
 - Thresholds: ≥100 pts (high priority), 75-99 pts (medium priority), <75 pts (discarded)
 - Only ~5% of findings become ADRs (strict filtering)
@@ -107,11 +119,13 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Prerequisites**: Run `/adr-identify` first to create potential ADRs.
 
 **Syntax**:
+
 ```bash
 /adr-generate [modules] [--context-dir=PATH] [--language=LOCALE] [--include-consider] [--output-dir=PATH]
 ```
 
 **Parameters**:
+
 - `modules`: Optional - Module IDs or `--all` for all modules. If omitted, prompts for selection.
 - `--context-dir=PATH`: Optional - Directory with strategic context documents
 - `--language=LOCALE`: Optional - Target language (en, pt-BR, es, fr, de). Default: en
@@ -119,6 +133,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 - `--output-dir=PATH`: Optional - Base output directory (default: `docs/adrs`)
 
 **Examples**:
+
 ```bash
 # Generate all high-priority ADRs
 /adr-generate --all
@@ -143,6 +158,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Output Structure**:
+
 ```
 {OUTPUT_DIR}/generated/
 └── {MODULE}/
@@ -162,11 +178,13 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Prerequisites**: Run `/adr-generate` first to create formal ADRs.
 
 **Syntax**:
+
 ```bash
 /adr-link [modules] [--validate] [--report-only] [--adrs-path=PATH] [--output-dir=PATH]
 ```
 
 **Parameters**:
+
 - `modules`: Optional - Module IDs to process. If omitted, processes all modules.
 - `--validate`: Optional - Validate existing links without modifying files
 - `--report-only`: Optional - Generate relationship report without updating files
@@ -174,6 +192,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 - `--output-dir=PATH`: Optional - Directory for reports (default: `docs/adrs/reports/`)
 
 **Examples**:
+
 ```bash
 # Process all ADRs
 /adr-link
@@ -195,6 +214,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Relationship Types Detected**:
+
 - **Supersedes/Superseded by**: ADR replaces an older one
 - **Depends on**: ADR requires a previous decision to function
 - **Related to**: Technical relationship without direct dependency
@@ -209,12 +229,14 @@ Install the agents and commands as described in the [README](../README.md#instal
 The ADRs Management pack follows a 3-phase workflow:
 
 ### Phase 1: Codebase Mapping (`/adr-map`)
+
 1. Analyze project structure
 2. Identify technologies and frameworks
 3. Divide codebase into logical modules
 4. Create `mapping.md` with modular structure
 
 ### Phase 2: ADR Identification (`/adr-identify`)
+
 1. Analyze specified modules
 2. Apply architectural filtering (Step 0 + Red Flags + Scoring)
 3. Create potential ADR files in priority folders
@@ -222,12 +244,14 @@ The ADRs Management pack follows a 3-phase workflow:
 5. Update index file
 
 ### Phase 3: ADR Generation (`/adr-generate`)
+
 1. Transform potential ADRs into formal MADR documents
 2. Detect relationships with existing ADRs
 3. Organize by module and priority
 4. Mark gaps requiring human input
 
 ### Post-Processing: Relationship Linking (`/adr-link`)
+
 1. Analyze all generated ADRs
 2. Detect relationships (Supersedes, Depends on, Related to, Amends)
 3. Create bidirectional clickable links
@@ -313,10 +337,9 @@ docs/adrs/                          # Default output directory
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| ------- | ---------- |
 | `mapping.md` not found | Run `/adr-map` first |
 | No potential ADRs found | Check module IDs in `mapping.md`, ensure codebase has architectural decisions |
 | ADR generation fails | Verify potential ADR files exist in `potential-adrs/` folder |
 | Links not created | Run `/adr-link` after generating ADRs |
 | Module not found | Check spelling or run `/adr-map` to see available modules |
-

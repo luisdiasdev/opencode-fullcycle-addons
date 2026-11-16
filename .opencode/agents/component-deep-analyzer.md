@@ -97,7 +97,6 @@ Return a Markdown report named as **Component Deep Analysis Report** with these 
    ---
    ```
 
-
 4. **Component Structure** — Internal organization and file structure:
 
    ```
@@ -113,6 +112,7 @@ Return a Markdown report named as **Component Deep Analysis Report** with these 
    └── config/
        └── payment-config.js        # Configuration management
    ```
+
 5. **Dependency Analysis** — Internal and external dependencies:
 
    ```
@@ -136,7 +136,7 @@ Return a Markdown report named as **Component Deep Analysis Report** with these 
    | PaymentController | 1 | 1 | Low |
    ```
 
-7. **Endpoints** - List all the endpoints of the component (It can be REST, GraphQL, gRPC, etc.). 
+7. **Endpoints** - List all the endpoints of the component (It can be REST, GraphQL, gRPC, etc.).
 IMPORTANT: If the component does not expose endpoints, do not include this section.
 
 In case of REST, use the format bellow, otherwise create a table to better describe the endpoints based on their protocol and format:
@@ -148,38 +148,37 @@ In case of REST, use the format bellow, otherwise create a table to better descr
 | /api/v1/payment/{id} | GET | Get a payment by ID |
 ```
 
-8. **Integration Points** — APIs, databases, and external services:
+1. **Integration Points** — APIs, databases, and external services:
 
    | Integration | Type | Purpose | Protocol | Data Format | Error Handling |
    |-------------|------|---------|----------|-------------|----------------|
    | Stripe API | External Service | Payment processing | HTTPS/REST | JSON | Circuit breaker pattern |
    | Order Service | Internal Service | Order updates | gRPC | Protobuf | Retry with backoff |
 
-9. **Design Patterns & Architecture** — Identified patterns and architectural decisions:
+2. **Design Patterns & Architecture** — Identified patterns and architectural decisions:
 
    | Pattern | Implementation | Location | Purpose |
    |---------|----------------|----------|---------|
    | Repository Pattern | PaymentRepository | repositories/PaymentRepo.js | Data access abstraction |
    | Circuit Breaker | StripeClient | utils/CircuitBreaker.js | Resilience for external calls |
 
+3. **Technical Debt & Risks** — Potentially identified issues
 
-10. **Technical Debt & Risks** — Potentially identified issues 
-
-    | Risk Level | Component Area | Issue | Impact | 
+    | Risk Level | Component Area | Issue | Impact |
     |------------|----------------|-------|--------|
     | High | PaymentProcessor | No transaction rollback | Data inconsistency risk |
-    | Medium | FraudDetector | Hardcoded thresholds | Inflexible rules | 
+    | Medium | FraudDetector | Hardcoded thresholds | Inflexible rules |
 
-11. **Test Coverage Analysis** — Testing strategy and coverage (ensure to locate the tests files that can be found in other folders of the project):
+4. **Test Coverage Analysis** — Testing strategy and coverage (ensure to locate the tests files that can be found in other folders of the project):
 
     | Component | Unit Tests | Integration Tests | Coverage | Test Quality |
     |-----------|------------|-------------------|----------|--------------|
     | PaymentProcessor | 15 | 5 | 78% | Good assertions, missing edge cases |
     | FraudDetector | 8 | 2 | 65% | Needs more negative test cases |
 
-12. **Save the report:** After producing the full report, create a file called `component-analysis-{component-name}-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `docs/agents/component-deep-analyzer`). Save the full report in the file.
+5. **Save the report:** After producing the full report, create a file called `component-analysis-{component-name}-{YYYY-MM-DD HH:MM:SS}.md` in the folder specified by `output-folder` parameter (default: `docs/agents/component-deep-analyzer`). Save the full report in the file.
 
-13. **Final Step:** After saving the report, return the absolute path to the saved file and the component name analyzed. (Do not include this step in the report.)
+6. **Final Step:** After saving the report, return the absolute path to the saved file and the component name analyzed. (Do not include this step in the report.)
 
 ---
 

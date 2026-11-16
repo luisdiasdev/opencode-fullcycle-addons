@@ -6,7 +6,10 @@ The Diagrams Generator pack creates visual architecture diagrams from Feature De
 
 ## Installation
 
-Install the agents and commands as described in the [README](../README.md#installation) (copy all files, or just the ones for this pack), then restart OpenCode.
+Install the agents and commands as described in the [README](../README.md#installation).
+The easiest way is to use the provided install script (`./install.sh` or `.\install.ps1`),
+then restart OpenCode. You can also copy only the files for this pack if you do not need
+the others.
 
 ## Available Commands
 
@@ -15,16 +18,19 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Description**: Generates C4 architecture diagrams (System Context, Container, Component, and Code levels) in PlantUML format from a Feature Design Document (FDD). Creates separate `.puml` files for each diagram level and an analysis markdown file.
 
 **Syntax**:
+
 ```bash
 /c4-generate <path-to-fdd.md> [output-folder] [--no-images]
 ```
 
 **Parameters**:
+
 - `path-to-fdd.md`: **Required** - Path to the Feature Design Document
 - `output-folder`: Optional - Output directory for generated files (default: `docs/c4`)
 - `--no-images`: Optional - Skip PNG image generation (default: PNG images are generated)
 
 **Examples**:
+
 ```bash
 # Generate C4 diagrams with default output location
 /c4-generate docs/features/payment-fdd.md
@@ -40,6 +46,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Output Structure**:
+
 ```
 {output-folder}/
 ├── {feature-name}-c1.puml    # System Context diagram
@@ -54,12 +61,14 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Diagram Levels**:
+
 - **C1 - System Context**: Business context and system boundaries (stakeholders, external systems)
 - **C2 - Container**: Technology stack and deployment units (services, databases, APIs)
 - **C3 - Component**: Internal component structure and responsibilities
 - **C4 - Code**: Maximum implementation detail using standard PlantUML class diagrams
 
 **Features**:
+
 - Automatically detects FDD language and generates diagrams in the same language
 - Uses proper accents and special characters for non-English languages
 - Keeps technical terms in English (Service, Gateway, Redis, etc.)
@@ -74,15 +83,18 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Description**: Generates technical Mermaid diagrams from Feature Design Documents (FDDs). Creates focused, meaningful diagrams (typically 6-8, up to 10 maximum) including sequence diagrams, flowcharts, class diagrams, and ER diagrams.
 
 **Syntax**:
+
 ```bash
 /mermaid-generate <path-to-fdd.md> [output-folder]
 ```
 
 **Parameters**:
+
 - `path-to-fdd.md`: **Required** - Path to the Feature Design Document
 - `output-folder`: Optional - Output directory for generated file (default: `docs/mermaid`)
 
 **Examples**:
+
 ```bash
 # Generate Mermaid diagrams with default output location
 /mermaid-generate docs/features/payment-fdd.md
@@ -95,12 +107,14 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Output Structure**:
+
 ```
 {output-folder}/
 └── {feature-name}-diagrams.md    # Single markdown file with all diagrams
 ```
 
 **Diagram Types Generated**:
+
 - **Sequence Diagrams**: API calls, event flows, request-response patterns, temporal ordering
 - **Flowchart TD (Top-Down)**: Internal process logic, algorithms, decision trees, state machines
 - **Flowchart LR (Left-Right)**: Mode comparison, strategy selection, parallel alternatives
@@ -108,6 +122,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 - **ER Diagrams**: Data models, entity relationships, message schemas
 
 **Features**:
+
 - Generates only significant diagrams that enhance comprehension
 - Automatically detects FDD language and generates diagrams in the same language
 - Uses proper accents and special characters everywhere (markdown text AND node labels)
@@ -250,7 +265,7 @@ docs/mermaid/                     # Default output directory
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| ------- | ---------- |
 | FDD file not found | Verify the path to the FDD file is correct |
 | No diagrams generated | Check if FDD has sufficient architectural information |
 | PNG generation fails | Install PlantUML: `brew install plantuml` (macOS) or `apt-get install plantuml` (Linux) |
@@ -261,6 +276,7 @@ docs/mermaid/                     # Default output directory
 ## Differences: C4 vs Mermaid
 
 **C4 Diagrams**:
+
 - Focus: Comprehensive architecture visualization (4 levels)
 - Format: PlantUML (`.puml` files)
 - Best for: Complete system architecture documentation
@@ -268,6 +284,7 @@ docs/mermaid/                     # Default output directory
 - Rendering: Requires PlantUML viewer or PNG generation
 
 **Mermaid Diagrams**:
+
 - Focus: Specific technical flows and relationships
 - Format: Mermaid (embedded in markdown)
 - Best for: Flowcharts, sequences, class diagrams, ER diagrams
@@ -275,4 +292,3 @@ docs/mermaid/                     # Default output directory
 - Rendering: Renders directly in markdown viewers (GitHub, GitLab, etc.)
 
 Choose C4 for comprehensive architecture documentation, Mermaid for specific technical flows and relationships.
-

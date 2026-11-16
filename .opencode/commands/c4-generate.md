@@ -5,6 +5,7 @@ description: "Generate C4 diagrams from a Feature Design Document (FDD). Usage: 
 You MUST invoke the c4-diagram-generator agent using the Task tool with subagent_type="c4-diagram-generator".
 
 Extract the FDD file path, optional output folder, and optional --no-images flag from the command arguments:
+
 - FDD file path (required)
 - Output folder (optional, default: "docs/c4")
 - --no-images flag (optional, if present: skip PNG generation, if absent: generate PNG images by default)
@@ -19,12 +20,14 @@ PNG generation: [PNG_INSTRUCTION]
 Execute your complete workflow (Phases 1-6) following all internal guidelines.
 
 CRITICAL REMINDERS:
+
 - Create separate .puml files using Write tool for EACH diagram (c1, c2, c3, c4) - this is MANDATORY
 - Create ONE .md file with analysis ONLY (NO PlantUML code inside)
 - Only generate diagrams with sufficient FDD information - never fabricate
 - [PNG_BEHAVIOR]
 
 REPORT must include:
+
 - Detected language of FDD
 - Explicit list of ALL created files (.puml, .md, and .png if applicable)
 - Number of diagrams generated with brief justification
@@ -39,9 +42,11 @@ Replace [feature-name] with the appropriate feature name extracted from the FDD 
 Replace [PNG_INSTRUCTION] and [PNG_BEHAVIOR] based on --no-images flag:
 
 If --no-images flag IS present:
+
 - [PNG_INSTRUCTION] = "DISABLED"
 - [PNG_BEHAVIOR] = "Skip PNG generation (Phase 5.6) entirely"
 
 If --no-images flag IS NOT present (default):
+
 - [PNG_INSTRUCTION] = "ENABLED"
 - [PNG_BEHAVIOR] = "Execute Phase 5.6: Generate PNG images with automatic error correction (max 3 attempts per file)"

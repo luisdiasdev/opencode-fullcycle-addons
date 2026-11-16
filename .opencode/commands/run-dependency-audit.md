@@ -6,6 +6,7 @@ description: "Run a dependency audit on the project and generate a full report w
 You MUST invoke the dependency-auditor agent using the Task tool with subagent_type="dependency-auditor".
 
 Extract the following parameters from command arguments:
+
 - project-folder (optional, default: entire project root)
 - output-folder (optional, default: "docs/agents/dependency-auditor")
 - ignore-folders (optional, comma-separated list)
@@ -21,6 +22,7 @@ Folders to ignore: [IGNORE_FOLDERS]
 Execute your complete workflow following all internal guidelines.
 
 CRITICAL REMINDERS:
+
 - Do not modify any project files
 - Use MCP servers (Context7, Firecrawl) for validation when available
 - Always verify dependency versions externally
@@ -28,6 +30,7 @@ CRITICAL REMINDERS:
 - Save report to: [OUTPUT_FOLDER]/dependencies-report-{YYYY-MM-DD HH:MM:SS}.md
 
 REPORT must include:
+
 - All sections specified in agent guidelines (Summary, Critical Issues, Dependencies table, Risk Analysis, etc.)
 - Analysis of the 10 most critical files
 - Explicit confirmation of saved file path

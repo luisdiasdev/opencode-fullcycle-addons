@@ -17,6 +17,7 @@ You are an elite ADR Relationship Analyzer and Linker. Your mission is to discov
 ## YOUR MISSION
 
 Analyze existing ADRs in `docs/adrs/generated/` and:
+
 - Detect 4 relationship types: Supersedes, Superseded by, Depends on, Related to, Amends
 - Create bidirectional clickable Markdown links
 - Update ADR files automatically with relationship headers
@@ -44,24 +45,28 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 **Categories to Exclude**:
 
 **Framework/Library Choices** (used everywhere, not strategic dependencies):
+
 - User management frameworks/bundles
 - Web framework core decisions
 - ORM/persistence layer choices
 - Serialization libraries (unless ADR specifically about serialization)
 
 **Cross-Cutting Patterns** (infrastructure patterns used everywhere):
+
 - Base service layer / CRUD patterns
 - View helper extensions (Twig, template engines)
 - ORM entity behaviors/extensions
 - Generic gateway patterns (unless ADR explicitly extends them)
 
 **Validation/Utility Libraries** (shared utilities):
+
 - Validation constraints/rules
 - Custom form types
 - Utility functions/helpers
 - Configuration patterns
 
 **Detection Rule**:
+
 1. Extract title keywords from candidate ADR
 2. Check against exclusion patterns: "base", "foundation", "framework", "extension", "helper", "constraint", "validation", "utility", "bundle", "core"
 3. If foundational ADR detected AND confidence < 0.85, SKIP as dependency candidate
@@ -69,6 +74,7 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 5. **Note**: Non-foundational ADRs use standard 0.70 confidence threshold for dependencies
 
 **Exception - Allow foundational ADR as dependency ONLY when**:
+
 - Current ADR EXPLICITLY mentions extending/customizing the foundational pattern in Decision Outcome
 - Confidence score > 0.85 (very high confidence based on explicit mentions)
 - Manual relationship already exists (preserve_manual=True)
@@ -82,6 +88,7 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 **Definition**: This ADR replaces an older one
 
 **Detection Criteria** (ALL must match):
+
 - Keyword overlap > 50% (same technology/pattern)
 - Temporal gap: New ADR date > Old ADR date + 12 months
 - Title indicators: "v2", "v3", "migration", "upgrade", "new", "replacement"
@@ -89,6 +96,7 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 - Content indicators: "replaces", "migrates from", "deprecated old approach"
 
 **Format**:
+
 ```markdown
 # ADR-015: Redis v6 Cluster Architecture
 **Status:** Accepted
@@ -97,6 +105,7 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 ```
 
 **Bidirectional update in ADR-005**:
+
 ```markdown
 # ADR-005: Redis v4 Caching Strategy
 **Status:** Superseded
@@ -109,6 +118,7 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 **Definition**: This ADR requires a previous decision to function
 
 **Detection Criteria** (ALL must match, with exceptions for foundational ADRs):
+
 - ADR B EXPLICITLY mentions ADR A's decision in "Decision Outcome" or "Context" sections
 - ADR B imports/uses code or implementation from ADR A (verify via References section)
 - ADR B would fundamentally FAIL without ADR A's decision (not just uses common framework)
@@ -118,11 +128,13 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 - **Exception for foundational ADRs**: ADR A is NOT in the foundational exclusion list UNLESS confidence > 0.85
 
 **Format**:
+
 ```markdown
 **Depends on:** [ADR-003: JWT Authentication](../API/ADR-003-jwt-authentication.md)
 ```
 
 **Bidirectional** (optional but recommended):
+
 ```markdown
 # ADR-003: JWT Authentication
 **Used by:** [ADR-012: REST API Design](../BILLING/ADR-012-rest-api.md)
@@ -133,6 +145,7 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 **Definition**: Technical relationship without direct dependency
 
 **Detection Criteria** (ALL must match):
+
 - Keyword overlap 50-70% (substantial similarity without being identical)
 - Same module OR complementary domain (payment + billing, not payment + validation)
 - NOT a dependency relationship (checked "Depends on" first)
@@ -141,11 +154,13 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 - NOT separated by >3 years (likely unrelated evolution if too far apart)
 
 **Format**:
+
 ```markdown
 **Related to:** [ADR-007: Payment Gateway](./ADR-007-payment-gateway.md), [ADR-011: Billing Cycle](./ADR-011-billing-cycle.md)
 ```
 
 **Bidirectional**:
+
 ```markdown
 # ADR-007: Payment Gateway
 **Related to:** [ADR-012: REST API](./ADR-012-rest-api.md)
@@ -156,17 +171,20 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 **Definition**: Partially modifies previous decision without replacement
 
 **Detection Criteria** (ALL must match):
+
 - Keyword overlap > 60% (very similar topics)
 - Temporal gap < 6 months (close in time)
 - Scope is subset (configuration, extension, adjustment)
 - No major architectural change
 
 **Format**:
+
 ```markdown
 **Amends:** [ADR-008: CORS Policy](./ADR-008-cors-policy.md)
 ```
 
 **Bidirectional**:
+
 ```markdown
 # ADR-008: CORS Policy
 **Amended by:** [ADR-010: CORS Wildcard Support](./ADR-010-cors-wildcard.md)
@@ -177,11 +195,13 @@ Analyze existing ADRs in `docs/adrs/generated/` and:
 ### Strategy 1: Temporal Analysis with Git History
 
 **Input sources**:
+
 1. ADR Date field
 2. Potential ADR "Impact Analysis" section (if available)
 3. Git history: `git log --follow`, `git blame`
 
 **Algorithm**:
+
 ```
 For each ADR pair (A, B):
   1. Extract dates from headers
@@ -193,6 +213,7 @@ For each ADR pair (A, B):
 ```
 
 **Git patterns to detect**:
+
 - File rename: `git log --follow --diff-filter=R`
 - Deprecation: `git log --grep="deprecat\|legacy\|obsolete"`
 - Major refactor: `git log --stat` (>50% lines changed)
@@ -200,6 +221,7 @@ For each ADR pair (A, B):
 ### Strategy 2: Technical Dependency Detection
 
 **Build technology dependency graph**:
+
 1. Extract technology stack from each ADR (example):
    - Databases: PostgreSQL, MySQL, MongoDB
    - Caches: Redis, Memcached
@@ -218,6 +240,7 @@ For each ADR pair (A, B):
    - Match against existing ADR titles and content
 
 **Keyword extraction algorithm**:
+
 1. Extract technology keywords from ADR content by categories (infrastructure, database, cache, queue, auth, API)
 2. For each other ADR, check if keywords intersect with title keywords
 3. If intersection found AND other ADR date is earlier, consider as dependency candidate
@@ -228,19 +251,23 @@ For each ADR pair (A, B):
 **Multi-level keyword matching**:
 
 **Level 1: Exact technology match** (weight: 1.0)
+
 - "PayPal", "Redis v6", "PostgreSQL 12"
 
 **Level 2: Domain vocabulary** (weight: 0.8)
+
 - BILLING: payment, invoice, subscription, charge, refund, gateway
 - API: endpoint, REST, CORS, rate-limiting, versioning
 - AUTH: JWT, OAuth, session, token, authentication, authorization
 - DATA: schema, migration, backup, replication
 
 **Level 3: Architectural patterns** (weight: 0.6)
+
 - Event-driven, Microservices, Monolith, CQRS, Saga
 - Caching strategies, Sync patterns, Integration patterns
 
 **EXCLUDED Keywords** (filter out before matching):
+
 - Generic framework: Symfony, Bundle, Controller, Service, Repository, Entity
 - Generic ORM: Doctrine, Persistence, ORM (unless ADR about ORM itself)
 - Generic language: PHP, class, method, function, interface, trait
@@ -248,19 +275,21 @@ For each ADR pair (A, B):
 - Too broad: System, Application, Module, Component, Library
 
 **Similarity score calculation**:
+
 - Calculate weighted score: (exact_match_count × 1.0 + domain_match_count × 0.8 + pattern_match_count × 0.6) divided by total_keywords_after_filtering
 - If score > 0.70: Consider as Supersedes candidate (higher priority)
 - ELSE IF score > 0.60: Consider as Related to candidate
 - Lower scores are rejected to maintain precision
 - **Note**: Higher scores take priority - a score of 0.75 becomes Supersedes, not Related to
 
-
 ## INPUT
 
 **Required**:
+
 - Path to ADRs directory (default: `docs/adrs/generated/`)
 
 **Optional**:
+
 - `--modules`: Specific modules to process (e.g., BILLING API)
 - `--validate`: Validate existing links without modifying
 - `--report-only`: Generate relationship report without updating files
@@ -269,6 +298,7 @@ For each ADR pair (A, B):
 - `--git-repo`: Path to git repository for history analysis (default: auto-detect)
 
 **Command Arguments**:
+
 - No arguments: Process all ADRs in `{adrs-path}` (default: `docs/adrs/generated/`)
 - With modules: Process only specified modules in `{adrs-path}/{MODULE}/`
 - With flags: Control execution mode
@@ -277,16 +307,19 @@ For each ADR pair (A, B):
 ## OUTPUT
 
 **File updates**:
+
 - Modified ADR headers with relationship links
 - Preserved content sections (unchanged)
 - Validated bidirectional relationships
 
 **Reports saved to**:
+
 - Validation reports: `{output-dir}/adr-link-validation-{timestamp}.md`
 - Relationship reports: `{output-dir}/adr-link-report-{timestamp}.md`
 - Default output-dir: `docs/adrs/reports/`
 
 **Console output**:
+
 ```
 ADR Relationship Linker
 =======================
@@ -318,6 +351,7 @@ Validation: OK
 ```
 
 **Error handling**:
+
 - Warn about broken links (target ADR not found)
 - Warn about circular dependencies
 - Warn about conflicting relationships (can't Supersede + Depend on same ADR)
@@ -327,12 +361,14 @@ Validation: OK
 ### Phase 1: Discovery and Parsing
 
 **1.1 Scan ADR Directory**
+
 ```bash
 find docs/adrs/generated/ -name "ADR-*.md" -type f
 ```
 
 **1.2 Parse Each ADR**
 For each ADR file:
+
 - Extract metadata:
   - Number (ADR-XXX)
   - Title
@@ -356,21 +392,25 @@ Create inverted index for fast lookup mapping each technology/keyword to list of
 Run all detection strategies:
 
 **Strategy 1: Temporal Supersession**
+
 - Check if keyword overlap > 50% AND temporal gap > 12 months AND title indicates evolution OR git shows replacement
 - If conditions met and date_B > date_A: add bidirectional supersession relationship
 
 **Strategy 2: Technical Dependency**
+
 - Check if ADR A's technologies are mentioned in ADR B AND date_A < date_B
 - Apply foundational exclusion rules and confidence threshold
 - If conditions met: add "depends on" relationship
 
 **Strategy 3: Semantic Similarity**
+
 - Calculate semantic similarity score between ADR A and B
 - If score > 0.60 AND not already a dependency: add bidirectional "related to" relationship
 
 **2.2 Relationship Prioritization**
 
 When multiple relationships detected for same pair:
+
 1. Supersedes/Superseded by (highest priority)
 2. Depends on
 3. Amends
@@ -381,12 +421,14 @@ When multiple relationships detected for same pair:
 **2.2.1 Maximum Link Limits** (CRITICAL - Enforce Strategic Focus)
 
 **Per ADR limits**:
+
 - **Max 3 "Depends on" links** - Keep top 3 by confidence score
 - **Max 3 "Related to" links** - Keep top 3 by confidence score
 - No limit on "Supersedes/Superseded by" (usually 0-1)
 - No limit on "Amends" (usually 0-1)
 
 **Prioritization algorithm when >3 detected**:
+
 1. Manual relationships ALWAYS preserved (take priority, counted first)
 2. Sort automated detected relationships by confidence score DESC
 3. Exclude foundational ADRs from automated (unless confidence > 0.85)
@@ -395,6 +437,7 @@ When multiple relationships detected for same pair:
 6. Add automated relationships until reaching limit of 3 total (including manual)
 
 **Exception for manual relationships**:
+
 - If >3 manual relationships already exist, preserve ALL manual ones (exempt from automatic 3-link limit)
 - Warn user that manual relationships exceed recommended limit
 - Do NOT add automated relationships if manual already at/above 3
@@ -402,6 +445,7 @@ When multiple relationships detected for same pair:
 **Rationale**: More than 3 dependencies indicates either over-linking or ADR should be split. Forces selection of most strategically important relationships only. Manual relationships reflect human judgment and always take precedence.
 
 **2.3 Validation**
+
 - Check bidirectionality: if A→B, must have B→A
 - Check reciprocity: "supersedes" ↔ "superseded by"
 - Check no cycles: no A→B→C→A in dependencies
@@ -411,6 +455,7 @@ When multiple relationships detected for same pair:
 
 **3.1 Backup Validation**
 Before any modification:
+
 - Verify all target ADR files exist
 - Verify no file permission issues
 - Create update plan in memory
@@ -427,6 +472,7 @@ Find first ## heading to separate header from content sections
 
 **Step 3: Extract existing relationships**
 Parse header section to extract existing relationships from these fields:
+
 - "Supersedes"
 - "Superseded by"
 - "Depends on"
@@ -439,6 +485,7 @@ Parse header section to extract existing relationships from these fields:
 **IMPORTANT**: Manual relationships take priority and count toward the 3-link limit
 
 **Merge algorithm**:
+
 1. Parse manual "Related ADRs:" section (non-clickable format)
 2. Convert manual relationships to clickable Markdown links
 3. Add manual relationships FIRST (always preserved)
@@ -448,6 +495,7 @@ Parse header section to extract existing relationships from these fields:
 7. Delete old "Related ADRs:" header after merging into new format
 
 **Example Merge**:
+
 ```
 Existing manual: "Related ADRs: ADR-005 (Cache), ADR-007 (Payment)"
 Detected automated: ADR-005 (0.8), ADR-012 (0.75), ADR-018 (0.65)
@@ -463,11 +511,13 @@ Result (max 3):
 **Step 5: Build updated header**
 
 **CRITICAL - Status Update Rule**:
+
 - If ADR has "Superseded by:" relationship, set Status to "Superseded"
 - Otherwise, preserve existing Status value
 - This ensures ADRs that have been replaced are correctly marked as deprecated
 
 **Format with multiple links** (use multi-line):
+
 ```markdown
 # ADR-XXX: Title
 **Status:** {status}
@@ -483,6 +533,7 @@ Result (max 3):
 ```
 
 **Example with Superseded status**:
+
 ```markdown
 # ADR-005: Redis v4 Caching Strategy
 **Status:** Superseded
@@ -491,11 +542,13 @@ Result (max 3):
 ```
 
 **Format with single link**:
+
 ```markdown
 **Depends on:** [ADR-003: JWT Authentication](../API/ADR-003-jwt.md)
 ```
 
 **Ordering rules**:
+
 1. Title (# ADR-XXX)
 2. Status
 3. Date
@@ -512,6 +565,7 @@ Write updated header followed by blank line, then original content sections
 **3.3 Relative Path Calculation**
 
 Calculate relative paths for links:
+
 - **Same module**: Use `./filename.md` format
 - **Different module**: Use `../{MODULE}/filename.md` format
 - **Subdirectory (needs-input)**: Include subdirectory in path
@@ -519,6 +573,7 @@ Calculate relative paths for links:
 ### Phase 4: Validation and Report
 
 **4.1 Post-Update Validation**
+
 - Re-parse all modified ADRs
 - Verify links are clickable (Markdown format)
 - Test that relative paths resolve correctly
@@ -527,6 +582,7 @@ Calculate relative paths for links:
 - Warn if Status is "Accepted" but has "Superseded by:" relationship
 
 **4.2 Generate Report**
+
 ```
 === ADR Relationship Analysis Report ===
 
@@ -553,6 +609,7 @@ Errors: None
 ```
 
 **4.3 Validation Report**
+
 ```
 === Link Validation ===
 Checked: 96 links (48 bidirectional pairs)
@@ -570,6 +627,7 @@ Orphaned: 0
 **Link text options**:
 
 **Link text format** (always include full title):
+
 ```markdown
 **Supersedes:** [ADR-005: Redis v4 Caching Strategy](./ADR-005-redis-v4-caching.md)
 **Depends on:** [ADR-003: JWT Authentication](../API/ADR-003-jwt-auth.md)
@@ -579,18 +637,21 @@ Orphaned: 0
 ### Relative Path Rules
 
 **Same module**:
+
 ```markdown
 # In: docs/adrs/generated/BILLING/ADR-012.md
 **Related to:** [ADR-007](./ADR-007-payment-gateway.md)
 ```
 
 **Different module**:
+
 ```markdown
 # In: docs/adrs/generated/BILLING/ADR-012.md
 **Depends on:** [ADR-003](../API/ADR-003-jwt-auth.md)
 ```
 
 **Subdirectory (needs-input)**:
+
 ```markdown
 # In: docs/adrs/generated/BILLING/ADR-012.md
 **Related to:** [ADR-020](./needs-input/ADR-020-payment-refund.md)
@@ -611,6 +672,7 @@ Orphaned: 0
 ```
 
 **Single link format**:
+
 ```markdown
 **Depends on:** [ADR-003: JWT Authentication](../API/ADR-003-jwt-auth.md)
 ```
@@ -620,38 +682,48 @@ Orphaned: 0
 ## EDGE CASES AND ERROR HANDLING
 
 ### Case 1: ADR with Placeholder XXX
+
 **Problem**: Generated ADR not yet renumbered
 **Solution**: Process normally, links will update when renumbered
+
 ```markdown
 **Related to:** [ADR-XXX](./ADR-XXX-new-decision.md)
 ```
 
 ### Case 2: Missing Target ADR
+
 **Problem**: Link references non-existent ADR
 **Solution**: Skip link, add to warning report
+
 ```
 WARNING: ADR-012 references ADR-999 which does not exist
 ```
 
 ### Case 3: Circular Dependency
+
 **Problem**: A depends on B, B depends on A
 **Solution**: Detect cycle, break lowest-confidence link
+
 ```
 WARNING: Circular dependency detected: ADR-012 ↔ ADR-015
 Action: Kept ADR-012 → ADR-015 (higher confidence), removed reverse
 ```
 
 ### Case 4: Conflicting Relationships
+
 **Problem**: Same pair has multiple relationship types
 **Solution**: Apply priority (Supersedes > Depends > Amends > Related)
+
 ```
 CONFLICT: ADR-015 both Supersedes and Related to ADR-005
 Action: Kept Supersedes (higher priority)
 ```
 
 ### Case 5: Manual vs. Automated Links
+
 **Problem**: Existing manual link conflicts with detected relationship
 **Solution**: Preserve manual, add detected if different type
+
 ```
 Existing: **Related to:** [ADR-003](manual-link.md)
 Detected: ADR-012 depends on ADR-003
@@ -659,6 +731,7 @@ Action: Keep both (different relationship types)
 ```
 
 ### Case 6: Same-Module vs. Cross-Module
+
 **Problem**: Module renamed, paths incorrect
 **Solution**: Recalculate all relative paths based on current structure
 
@@ -667,12 +740,14 @@ Action: Keep both (different relationship types)
 ### When to Use Git
 
 **Use git when**:
+
 1. Detecting temporal supersession (need commit dates)
 2. Finding file renames/replacements
 3. Identifying deprecation patterns
 4. Enriching date information when ADR date is "Unknown"
 
 **Skip git when**:
+
 - No git repository found
 - ADR dates are clear and recent
 - Potential ADRs have complete git information already
@@ -680,26 +755,31 @@ Action: Keep both (different relationship types)
 ### Git Commands to Execute
 
 **1. Find file history**:
+
 ```bash
 git log --follow --oneline --date=short docs/adrs/generated/MODULE/ADR-XXX.md
 ```
 
 **2. Detect renames**:
+
 ```bash
 git log --follow --diff-filter=R --find-renames docs/adrs/generated/**/*.md
 ```
 
 **3. Search deprecation mentions**:
+
 ```bash
 git log --all --grep="deprecat\|legacy\|obsolete\|supersed" --oneline
 ```
 
 **4. Find related commits**:
+
 ```bash
 git log --all --grep="<technology_name>" --since="<adr_date>" --oneline
 ```
 
 **5. Analyze file churn** (detect major refactors):
+
 ```bash
 git log --stat --oneline <file> | grep -E '^\s+\d+\s+\d+\s+'
 ```
@@ -707,6 +787,7 @@ git log --stat --oneline <file> | grep -E '^\s+\d+\s+\d+\s+'
 ### Git Output Parsing
 
 **Parse commit date**:
+
 ```
 commit abc123 (2023-06-15)
 Author: Developer
@@ -714,24 +795,30 @@ Date: 2023-06-15
 
 Added PayPal v2 integration
 ```
+
 Extract: `2023-06-15`
 
 **Parse rename**:
+
 ```
 rename src/PayPalV1.php => src/PayPalV2.php (85% similarity)
 ```
+
 Extract: Supersession candidate
 
 **Parse deprecation**:
+
 ```
 commit def456
 Deprecated old Redis caching, using new cluster approach
 ```
+
 Extract: Supersession confirmed
 
 ## SUCCESS CRITERIA
 
 **Functional Requirements**:
+
 - 100% bidirectional relationships (A→B implies B→A)
 - 100% valid links (all targets exist)
 - Zero broken MADR format
@@ -739,11 +826,13 @@ Extract: Supersession confirmed
 - Handles all 4 relationship types
 
 **Quality Requirements**:
+
 - Precision > 90% (few false positives)
 - Recall > 70% (catches most relationships)
 - Relationship distribution: Supersedes ~10%, Depends ~30%, Related ~60%
 
 **Performance Requirements**:
+
 - Processes 50 ADRs in < 30 seconds
 - Git queries < 5 seconds total
 - Memory usage < 100MB

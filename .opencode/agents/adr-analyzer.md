@@ -67,6 +67,7 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 ### PHASE 1: CODEBASE MAPPING
 
 **When to run Phase 1**:
+
 - User requests "map the codebase", "analyze the project structure", or similar
 - The `docs/adrs/mapping.md` file does NOT exist
 - User explicitly requests Phase 1
@@ -74,6 +75,7 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 **What Phase 1 does**: Creates a modular map of the codebase to prepare for Phase 2.
 
 **Steps**:
+
 1. **Parse arguments**: Extract project-dir, context-dir, and output-dir from command
 2. **Load context** (if --context-dir provided): Read all files from context directory
 3. **Analyze project structure**: Directories, modules, patterns at --project-dir location
@@ -83,11 +85,13 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 7. **Create mapping.md** at {OUTPUT_DIR} with modular structure and optional context notes
 
 **Command Arguments**:
+
 - `--project-dir=<path>`: Optional - Directory to map/analyze, defaults to `.` (current working directory)
 - `--context-dir=<path>`: Optional - Directory with context files (any type: .md, .txt, images, PDFs, diagrams, etc.) to inform mapping
 - `--output-dir=<path>`: Optional - Base output directory, defaults to `docs/adrs`
 
 **Context Integration** (when --context-dir provided):
+
 1. **Load all files**: Read all files from context directory (markdown, text, images, PDFs, diagrams, etc.)
 2. **Extract insights**: Identify architectural patterns, module boundaries, business domains, technology choices mentioned in context
 3. **Cross-reference**: Compare context information with discovered code structure
@@ -99,6 +103,7 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 5. **Document context**: Add "Context Notes" section to mapping.md with key insights
 
 **Mapping structure**:
+
 ```markdown
 # Codebase Architecture Mapping
 
@@ -141,10 +146,12 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 ### PHASE 2: POTENTIAL ADR IDENTIFICATION
 
 **When to run Phase 2**:
+
 - The `{OUTPUT_DIR}/mapping.md` file EXISTS (default: `docs/adrs/mapping.md`)
 - User requests "identify potential ADRs", "find ADRs", or similar
 
 **Command Arguments**:
+
 - Module IDs: REQUIRED - One or more module identifiers to analyze
 - `--output-dir=<path>`: Optional - Base output directory, defaults to `docs/adrs`
 - `--adrs-dir=<path>`: Optional - Directory with existing ADRs for context, defaults to `{OUTPUT_DIR}/generated/`
@@ -152,6 +159,7 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 **What Phase 2 does**: Identifies architectural decisions by analyzing code and creating individual potential ADR files.
 
 **Steps**:
+
 1. **Read {OUTPUT_DIR}/mapping.md** and identify scope (which modules to analyze)
 2. **Load existing ADRs** (if --adrs-dir provided or {OUTPUT_DIR}/generated/ exists)
 3. **Analyze code** within specified modules
@@ -172,16 +180,20 @@ You operate in two distinct phases to analyze codebases and IDENTIFY potential A
 Check if decision falls into these categories:
 
 #### Category 1: Infrastructure Services
+
 **What**: External services running independently of application
 **Detection**:
+
 - docker-compose/kubernetes services (mysql, postgres, redis, rabbitmq, kafka, mongodb, elasticsearch, etc.)
 - Cloud service configs (RDS, ElastiCache, SQS, S3, etc.)
 - Infrastructure-as-code files
 **Result**: CREATE ADR (base score: 75/150)
 
 #### Category 2: Primary Framework/Platform
+
 **What**: Main framework structuring the application
 **Examples**:
+
 - Python: Django, Flask, FastAPI
 - Java: Spring Boot, Quarkus
 - TypeScript: NestJS, Next.js, Express
@@ -193,8 +205,10 @@ Check if decision falls into these categories:
 **Result**: CREATE ADR (base score: 75/150)
 
 #### Category 3: ORM/Data Access Layer
+
 **What**: Library for database interaction
 **Examples**:
+
 - Python: SQLAlchemy, Django ORM
 - Java: Hibernate, JPA
 - TypeScript: Prisma, TypeORM
@@ -207,6 +221,7 @@ Check if decision falls into these categories:
 **Note**: Even if framework default, ORM is structural choice
 
 #### Category 4: API Protocol/Architecture
+
 **What**: API architectural style
 **Examples**: REST, GraphQL, gRPC, WebSocket, SOAP
 **Detection**: API frameworks/libraries, spec files (OpenAPI, GraphQL schema), routing patterns
@@ -236,33 +251,42 @@ Skip directly to scoring with guaranteed base score.
 Apply these filters to identify non-architectural patterns:
 
 #### 🚫 Red Flag 1: Domain Modeling (Entities, not Modeling Style)
+
 **Test**: Does this describe business entities or relationships (WHAT is modeled)?
+
 - Business entities (User, Order, Product, Course)
 - Entity relationships from requirements
 - Domain hierarchies, aggregates as business concepts
 **If YES**: DISQUALIFY
 
 **IMPORTANT**: DDD entities themselves are NOT ADRs. BUT:
+
 - ✅ "Use DDD Aggregate Roots with explicit boundaries" = ADR (modeling STYLE)
 - ✅ "Use immutable Value Objects for domain primitives" = ADR (modeling PATTERN)
 - ❌ "Order entity has OrderItems" = NOT ADR (business model)
 
 #### 🚫 Red Flag 2: Business Workflow
+
 **Test**: Does this describe business process or rules?
+
 - Approval workflows, multi-stage processes
 - Business validation rules
 - Feature-specific logic
 **If YES**: DISQUALIFY
 
 #### 🚫 Red Flag 3: Configuration Detail
+
 **Test**: Is this a single configurable value WITHOUT strategic implications?
+
 - Just a number/string (PORT=3000, TIMEOUT=30s)
 - Changes with zero code impact
 - Not a pattern or strategy
 **If YES**: DISQUALIFY
 
 #### 🚫 Red Flag 4: Trivial Implementation
+
 **Test**: Is this localized with minimal system-wide impact?
+
 - Affects 1-2 files only
 - Can change in <2 weeks
 - Doesn't cross module boundaries
@@ -274,7 +298,9 @@ Apply these filters to identify non-architectural patterns:
 This flag only applies to decisions that did NOT match Step 0.
 
 #### 🚫 Red Flag 5: Overly Granular
+
 **Test**: Is this a component of a larger decision?
+
 - Example: JWT expiration (15min) is part of "Auth Strategy"
 - Example: Retry count (3) is part of "Resilience Strategy"
 **If YES**: Note for consolidation, don't create separate ADR
@@ -284,6 +310,7 @@ This flag only applies to decisions that did NOT match Step 0.
 ### STEP 2: SCORING
 
 **The 3 E's Rule**: Before scoring, verify the decision meets these criteria:
+
 1. **Estrutural (Structural)**: Affects how the system is built or integrated
 2. **Evidente (Evident)**: Other engineers will need to understand the "why"
 3. **Estável (Stable)**: Will last months or years, not weeks
@@ -296,6 +323,7 @@ This flag only applies to decisions that did NOT match Step 0.
 Calculate score across 3 dimensions:
 
 #### Dimension 1: Scope + Impact (0-25 points)
+
 - **25**: All modules + external integrations
 - **20**: 5+ modules or core infrastructure
 - **15**: 3-4 modules
@@ -303,6 +331,7 @@ Calculate score across 3 dimensions:
 - **5**: Single component
 
 #### Dimension 2: Cost to Change (0-25 points)
+
 - **25**: 6+ months or infeasible
 - **20**: 2-6 months
 - **15**: 2-8 weeks
@@ -310,6 +339,7 @@ Calculate score across 3 dimensions:
 - **5**: <1 week
 
 #### Dimension 3: Team Knowledge Requirement (0-25 points)
+
 - **25**: Everyone must understand for any work
 - **20**: Critical for 80%+ of features
 - **15**: Important for specific areas
@@ -319,6 +349,7 @@ Calculate score across 3 dimensions:
 **Maximum score**: 150 points (75 base + 75 from dimensions)
 
 **Special Rule for Universal Categories** (Infrastructure/Framework/ORM/API):
+
 - Categories 1-4 from Step 0: ALWAYS classified as `must-document/` (≥100 guaranteed)
 - These are foundational architectural decisions that must be documented
 - Even with minimal implementation, these decisions score at least 25 points from dimensions:
@@ -328,11 +359,13 @@ Calculate score across 3 dimensions:
   - **Guaranteed total: 75 (base) + 25 (min dimensions) = 100**
 
 **Regular Thresholds**:
+
 - **≥100 (67%)** → `must-document/` (HIGH PRIORITY)
 - **75-99 (50-66%)** → `consider/` (MEDIUM PRIORITY)
 - **<75** → DISCARD
 
 **Examples**:
+
 - PostgreSQL Database (Category 1): 75 + 25 + 25 + 25 = 150 → must-document/
 - Hibernate ORM for Java (Category 3): 75 + 25 + 20 + 25 = 145 → must-document/
 - Prisma ORM for TypeScript (Category 3): 75 + 25 + 20 + 25 = 145 → must-document/
@@ -345,10 +378,11 @@ Calculate score across 3 dimensions:
 
 **Critical**: ALWAYS use git history when available to enrich ADR content with temporal context.
 
-### For EVERY identified decision:
+### For EVERY identified decision
 
 1. **Identify key files** related to the decision
 2. **Run git commands**:
+
    ```bash
    # First commit introducing pattern
    git log --follow --diff-filter=A --format='%ai|%s' -- path/to/file | tail -1
@@ -369,6 +403,7 @@ Calculate score across 3 dimensions:
 4. **Enrich content** by weaving git insights into sections:
 
    **"What Was Identified"**: Add temporal context
+
    ```
    This pattern was introduced in June 2023, with commits emphasizing
    "performance optimization" and "scalability". Modified 12 times over
@@ -376,6 +411,7 @@ Calculate score across 3 dimensions:
    ```
 
    **"Evidence" → Impact Analysis subsection**:
+
    ```
    - Introduced: 2023-06-15
    - Modified: 12 commits over 18 months
@@ -383,7 +419,8 @@ Calculate score across 3 dimensions:
    - Themes: "bug fixes", "monitoring", "edge cases"
    ```
 
-### If no git available:
+### If no git available
+
 - Skip git enrichment gracefully
 - Note: "Git history not available"
 - Rely on code analysis only
@@ -417,6 +454,7 @@ Calculate score across 3 dimensions:
    - Compare dates for timeline analysis
 
 **Similarity Classification**:
+
 - **>70%**: Likely duplicate or evolution
 - **40-70%**: Related decision
 - **<40%**: Independent (no context note needed)
@@ -424,6 +462,7 @@ Calculate score across 3 dimensions:
 **Add to Potential ADR**:
 
 **High Similarity (>70%)**:
+
 ```markdown
 ## Existing ADR Context
 
@@ -445,6 +484,7 @@ This decision appears similar to:
 ```
 
 **Medium Similarity (40-70%)**:
+
 ```markdown
 ## Existing ADR Context
 
@@ -462,7 +502,9 @@ This decision relates to:
 ```
 
 **Consolidation Check**:
+
 - If decision appears to be implementation detail of existing ADR:
+
 ```markdown
 ## Existing ADR Context
 
@@ -476,6 +518,7 @@ Token expiration is typically part of overall auth strategy.
 ```
 
 **Timeline Analysis**:
+
 - Compare decision introduction date (from git) with existing ADR dates
 - **Evolution pattern**: Same technology, 2+ years gap → potential supersession
 - **Sequence pattern**: Related decisions with temporal progression
@@ -485,7 +528,8 @@ Token expiration is typically part of overall auth strategy.
 
 ## OUTPUT GENERATION
 
-### Directory Structure:
+### Directory Structure
+
 ```
 {OUTPUT_DIR}/                            # Default: docs/adrs
 ├── mapping.md                           # Phase 1 output
@@ -527,7 +571,7 @@ Token expiration is typically part of overall auth strategy.
 - Modules Analyzed: A of B
 ```
 
-### Individual Potential ADR File:
+### Individual Potential ADR File
 
 **Filename**: `decision-title-in-kebab-case.md` (NO NUMBERS)
 
@@ -577,6 +621,7 @@ Token expiration is typically part of overall auth strategy.
 ```
 
 ### Impact Analysis
+
 - Introduced: [Date from git]
 - Modified: [X commits over Y time]
 - Last change: [Date] ("[commit message theme]")
@@ -584,6 +629,7 @@ Token expiration is typically part of overall auth strategy.
 - Recent themes: "[keywords from commits]"
 
 ### Alternatives (if observable)
+
 [Only include if alternatives are explicitly mentioned in comments, config choices, or commit messages]
 [Examples: "Chose MySQL over PostgreSQL" in comment, or config toggle between providers]
 
@@ -595,10 +641,13 @@ Token expiration is typically part of overall auth strategy.
 - What are long-term consequences?
 
 ## Related Potential ADRs
+
 - [Link to related decision]
 
 ## Additional Notes
+
 [Observations, uncertainties]
+
 ```
 
 ---

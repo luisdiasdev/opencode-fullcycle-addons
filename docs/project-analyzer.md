@@ -6,7 +6,10 @@ The Project Analyzer pack provides comprehensive architectural analysis capabili
 
 ## Installation
 
-Install the agents and commands as described in the [README](../README.md#installation) (copy all files, or just the ones for this pack), then restart OpenCode.
+Install the agents and commands as described in the [README](../README.md#installation).
+The easiest way is to use the provided install script (`./install.sh` or `.\install.ps1`),
+then restart OpenCode. You can also copy only the files for this pack if you do not need
+the others.
 
 ## Available Commands
 
@@ -15,16 +18,19 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Description**: Runs a complete architectural analysis workflow including dependency auditing, architectural analysis, and component deep-dive analysis. Generates comprehensive reports with a MANIFEST index tracking all generated reports.
 
 **Syntax**:
+
 ```bash
 /generate-architectural-report [--project-folder=PATH] [--output-folder=PATH] [--ignore-folders=LIST]
 ```
 
 **Parameters**:
+
 - `--project-folder=PATH`: Optional - Specific folder to analyze (default: entire project root)
 - `--output-folder=PATH`: Optional - Custom location to save reports (default: `/docs/agents`)
 - `--ignore-folders=LIST`: Optional - Comma-separated list of folders/files to exclude from analysis
 
 **Examples**:
+
 ```bash
 # Analyze entire project with default output location
 /generate-architectural-report
@@ -43,6 +49,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Workflow**:
+
 1. **Phase 1**: Initialize project structure and MANIFEST.md
 2. **Phase 2**: Execute dependency audit and architectural analysis in parallel
 3. **Phase 3**: Execute component deep-dive analysis in parallel for all identified components
@@ -51,6 +58,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 6. **Phase 6**: Generate README index
 
 **Output Structure**:
+
 ```
 {output-folder}/
 ├── MANIFEST.md                                    # Execution registry
@@ -67,6 +75,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Reports Generated**:
+
 - **Dependency Audit Report**: Outdated dependencies, vulnerabilities, license compatibility
 - **Architectural Report**: System architecture, components, integration points, risks
 - **Component Analysis Reports**: Deep-dive into each identified component (business rules, dependencies, endpoints, test coverage)
@@ -78,16 +87,19 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Description**: Runs a dependency audit on the project and generates a comprehensive report. Identifies outdated, deprecated, or legacy libraries, checks for vulnerabilities using CVE databases, and evaluates license compatibility.
 
 **Syntax**:
+
 ```bash
 /run-dependency-audit [--project-folder=PATH] [--output-folder=PATH] [--ignore-folders=LIST]
 ```
 
 **Parameters**:
+
 - `--project-folder=PATH`: Optional - Specific folder to audit (default: entire project root)
 - `--output-folder=PATH`: Optional - Custom location to save report (default: `/docs/agents/dependency-auditor`)
 - `--ignore-folders=LIST`: Optional - Comma-separated list of folders/files to exclude from audit
 
 **Examples**:
+
 ```bash
 # Audit entire project (default: root folder)
 /run-dependency-audit
@@ -106,12 +118,14 @@ Install the agents and commands as described in the [README](../README.md#instal
 ```
 
 **Output Structure**:
+
 ```
 {output-folder}/
 └── dependencies-report-{YYYY-MM-DD HH:MM:SS}.md
 ```
 
 **Report Sections**:
+
 1. **Summary**: High-level overview of project dependencies and main findings
 2. **Critical Issues**: Security vulnerabilities (with CVEs) and deprecated/legacy core dependencies
 3. **Dependencies Table**: Current version, latest version, and status for each dependency
@@ -121,6 +135,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 7. **Integration Notes**: Summary of how each dependency is used in the project
 
 **Features**:
+
 - Validates dependency versions using MCP servers (Context7, Firecrawl) and web search
 - Checks GitHub repositories for latest stable versions
 - Flags packages unmaintained for more than one year
@@ -140,6 +155,7 @@ The Project Analyzer pack includes three specialized agents:
 **Purpose**: Comprehensive architectural analysis of the codebase
 
 **Capabilities**:
+
 - Maps complete system architecture and component relationships
 - Identifies critical components and coupling patterns
 - Analyzes afferent and efferent coupling
@@ -149,6 +165,7 @@ The Project Analyzer pack includes three specialized agents:
 - Identifies architectural debt and security risks
 
 **Output**: Architectural Analysis Report with:
+
 - Executive Summary
 - System Overview
 - Critical Components Analysis (table with coupling metrics)
@@ -164,6 +181,7 @@ The Project Analyzer pack includes three specialized agents:
 **Purpose**: Deep technical analysis of individual software components
 
 **Capabilities**:
+
 - Maps complete internal structure and organization
 - Extracts and documents all business rules and validation logic
 - Analyzes implementation details and algorithms
@@ -175,6 +193,7 @@ The Project Analyzer pack includes three specialized agents:
 - Analyzes test coverage
 
 **Output**: Component Deep Analysis Report with:
+
 - Executive Summary
 - Data Flow Analysis
 - Business Rules & Logic (overview table + detailed breakdown)
@@ -194,6 +213,7 @@ The Project Analyzer pack includes three specialized agents:
 **Purpose**: Comprehensive dependency health and security analysis
 
 **Capabilities**:
+
 - Identifies outdated, deprecated, or legacy libraries
 - Checks for vulnerabilities using CVE databases
 - Flags libraries unmaintained for more than one year
@@ -350,7 +370,7 @@ docs/agents/dependency-auditor/                  # Default output
 ## Troubleshooting
 
 | Issue | Solution |
-|-------|----------|
+| ------- | ---------- |
 | No source code found | Provide correct project path or confirm analysis scope |
 | No dependency files found | Ensure package management files exist (package.json, requirements.txt, etc.) |
 | Component not found | Check component name spelling or run architectural analysis first |
@@ -366,6 +386,7 @@ The Project Analyzer pack works well with:
 - **Diagrams Generator**: Generate diagrams from architectural findings
 
 Example workflow:
+
 ```bash
 # 1. Analyze architecture
 /generate-architectural-report
@@ -377,4 +398,3 @@ Example workflow:
 # 3. Generate diagrams for key components
 /c4-generate docs/features/payment-fdd.md
 ```
-

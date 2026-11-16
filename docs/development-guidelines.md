@@ -6,7 +6,10 @@ The Development Guidelines pack generates comprehensive, language-specific devel
 
 ## Installation
 
-Install the agents and commands as described in the [README](../README.md#installation) (copy all files, or just the ones for this pack), then restart OpenCode.
+Install the agents and commands as described in the [README](../README.md#installation).
+The easiest way is to use the provided install script (`./install.sh` or `.\install.ps1`),
+then restart OpenCode. You can also copy only the files for this pack if you do not need
+the others.
 
 ## Available Commands
 
@@ -15,11 +18,13 @@ Install the agents and commands as described in the [README](../README.md#instal
 **Description**: Generates comprehensive development guideline documents for any programming language, following a standardized template structure. The command performs extensive research, analyzes language characteristics, and creates a complete guideline document with code examples, best practices, and tool recommendations.
 
 **Syntax**:
+
 ```bash
 /generate-development-guideline <language-name> [--param=value ...]
 ```
 
 **Parameters** (all optional):
+
 - `--orm=<name>` - ORM or query builder (e.g., prisma, sqlalchemy, sqlc, gorm, hibernate)
 - `--web=<name>` - Web framework (e.g., express, fastapi, chi, spring-boot, gin, flask)
 - `--framework=<name>` - Main framework (e.g., laravel, nestjs, langgraph, langchain, spring, django)
@@ -33,6 +38,7 @@ Install the agents and commands as described in the [README](../README.md#instal
 - `--serialization=<name>` - Serialization library (e.g., serde, jackson, gson, msgpack)
 
 **Examples**:
+
 ```bash
 # Generate basic guideline for a language
 /generate-development-guideline Python
@@ -97,6 +103,7 @@ The command creates a file named `<language>-development-guidelines.md` with:
 - Curated references
 
 **Output Structure**:
+
 ```
 {language}-development-guidelines.md
 ├── Project Stack (if parameters provided)
@@ -163,6 +170,7 @@ The generated document will have:
 **This command creates LANGUAGE guidelines, NOT framework guidelines.**
 
 **What this means**:
+
 - The guideline focuses on language-level patterns, idioms, and best practices
 - Specified libraries are listed in "Project Stack" section for reference only
 - Code examples use **standard library or language-native features**
@@ -170,6 +178,7 @@ The generated document will have:
 - Principles apply **regardless of library choice**
 
 **Example**: A TypeScript guideline with `--orm=prisma`:
+
 - ✅ Lists Prisma in "Project Stack" section for reference
 - ✅ Code examples use standard PostgreSQL driver (pg library)
 - ✅ Explains TypeScript type safety patterns (language-level)
@@ -179,11 +188,13 @@ The generated document will have:
 ### When to Use Parameters
 
 **Use parameters when**:
+
 - You have a specific project stack in mind
 - You want those libraries documented in "Project Stack" section for quick reference
 - You want to document your team's technology choices
 
 **Don't use parameters when**:
+
 - You want a 100% language-generic guideline
 - You're learning the language and don't know the ecosystem yet
 - You don't have specific library preferences
@@ -191,9 +202,9 @@ The generated document will have:
 ## Support
 
 If the command produces incorrect results:
+
 - Check that the language name is spelled correctly
 - Verify internet connectivity for research phase
 - Review the validation report for any failures
 - Verify parameter syntax: `--key=value` (no spaces around `=`)
 - Check that specified libraries are appropriate for the language
-

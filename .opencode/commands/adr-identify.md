@@ -9,6 +9,7 @@ When multiple modules are specified, launches agents in parallel for faster anal
 **Prerequisites**: Run `/adr-map` first if mapping.md doesn't exist in the output directory.
 
 **What it does**:
+
 - Analyzes specified module(s) with strict architectural filtering
 - Executes multiple modules in parallel when 2+ modules are specified
 - Uses git history internally to enrich potential ADRs with temporal context
@@ -17,11 +18,13 @@ When multiple modules are specified, launches agents in parallel for faster anal
 - Updates the index with findings
 
 **Usage**:
+
 ```
 /adr-identify [module-ids] [--output-dir=PATH] [--adrs-dir=PATH]
 ```
 
 **Examples**:
+
 ```
 /adr-identify
 # Prompts which modules to analyze (uses docs/adrs by default)
@@ -40,6 +43,7 @@ When multiple modules are specified, launches agents in parallel for faster anal
 ```
 
 **Output Structure**:
+
 ```
 {OUTPUT_DIR}/potential-adrs/          # Default: docs/adrs/potential-adrs
 ├── must-document/    # High priority (score ≥100 out of 150)
@@ -54,23 +58,27 @@ When multiple modules are specified, launches agents in parallel for faster anal
 **Important**: Filenames use descriptive kebab-case WITHOUT numbers. Numbering happens in Phase 3 when formal ADRs are generated.
 
 **Existing ADR Integration**: Automatically scans {OUTPUT_DIR}/generated/ (or --adrs-dir path) for existing ADRs to:
+
 - Avoid duplicate identification (>70% similarity warning)
 - Detect relationships with existing decisions (40-70% similarity)
 - Provide timeline context (decision evolution, supersession patterns)
 - Suggest consolidation opportunities (implementation details of existing ADRs)
 
 **How It Works**:
+
 - **Scoring**: 3 dimensions (Scope+Impact, Cost to Change, Team Knowledge), 150 points total (75 base score from Step 0 + 75 from dimensions)
 - **Thresholds**: ≥100 pts (67%, high priority), 75-99 pts (50-66%, medium priority), <75 pts (discard)
 - **Filtering**: Step 0 (Positive Identification) + Red Flags 1-5
 - **Git Integration**: Enriches content with temporal context (dates, evolution, intent keywords)
 
 **Key Features**:
+
 - **Step 0 (Positive Identification)**: Base technology decisions (infrastructure services, framework, ORM, API, auth, payment, AI/ML) automatically trigger ADR creation with base score
 - **Red Flag 5**: Consolidates overly granular decisions into larger strategic ADRs (prevents ADR sprawl)
 - **Operational Impact**: Captures observability, resilience, and production reliability decisions
 
 **Expected Results**:
+
 - Only ~5% of findings become ADRs (strict filtering)
 - Potential ADRs enriched with git history (dates, evolution, intent keywords)
 - No separate "Git History" section - insights woven naturally into content
@@ -84,15 +92,19 @@ When multiple modules are specified, launches agents in parallel for faster anal
 When the user invokes `/adr-identify` with module IDs:
 
 ### Parse Arguments
+
 Extract from command:
+
 - Module IDs (e.g., AUTH, DATA, API)
 - `--output-dir=<path>`: Optional output directory (default: `docs/adrs`)
 - `--adrs-dir=<path>`: Optional existing ADRs directory (default: `{OUTPUT_DIR}/generated/`)
 
 ### Single Module (e.g., `/adr-identify AUTH`)
+
 Launch a single `adr-analyzer` agent with the Task tool:
 
 **Without --output-dir:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -100,6 +112,7 @@ Task tool:
 ```
 
 **With --output-dir:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -107,6 +120,7 @@ Task tool:
 ```
 
 **With --adrs-dir:**
+
 ```
 Task tool:
 - subagent_type: adr-analyzer
@@ -114,9 +128,11 @@ Task tool:
 ```
 
 ### Multiple Modules (e.g., `/adr-identify AUTH DATA API` or `/adr-identify --output-dir=output/adrs AUTH DATA`)
+
 Launch multiple `adr-analyzer` agents **in parallel** using a single message with multiple Task tool calls:
 
 **Without --output-dir:**
+
 ```
 Single message with multiple Task tool calls:
 
@@ -134,6 +150,7 @@ Task tool call 3:
 ```
 
 **With --output-dir:**
+
 ```
 Single message with multiple Task tool calls:
 
@@ -151,6 +168,7 @@ Task tool call 3:
 ```
 
 **IMPORTANT**:
+
 - When 2+ modules are specified, you MUST send a single message with multiple Task tool calls
 - Each agent should analyze only ONE specific module
 - Do NOT run agents sequentially - run them in parallel for better performance
@@ -159,6 +177,7 @@ Task tool call 3:
 - All agents must use the same --output-dir if specified
 
 ### No Modules Specified (e.g., `/adr-identify` or `/adr-identify --output-dir=custom/path`)
+
 1. Determine output directory (from --output-dir or default `docs/adrs`)
 2. Read `{OUTPUT_DIR}/mapping.md` to get available modules
 3. Present the module list to the user

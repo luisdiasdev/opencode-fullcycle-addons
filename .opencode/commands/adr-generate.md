@@ -7,6 +7,7 @@ Launches the `adr-generator` agent to generate formal ADRs from potential ADRs.
 When multiple modules or files are specified, launches agents in parallel for faster generation.
 
 **What it does**:
+
 - Generates formal ADRs using placeholder XXX for numbering
 - Executes multiple targets in parallel when 2+ targets are specified
 - Detects relationships with existing ADRs
@@ -14,11 +15,13 @@ When multiple modules or files are specified, launches agents in parallel for fa
 - Manual renumbering required after generation
 
 **Usage**:
+
 ```
 /adr-generate [modules] [--context-dir=PATH] [--language=LOCALE] [--include-consider] [--output-dir=PATH]
 ```
 
 **Examples**:
+
 ```
 /adr-generate --all
 # Generate ALL potential ADRs to docs/adrs/generated/{MODULE}/
@@ -52,18 +55,21 @@ When the user invokes `/adr-generate`:
 ### Step 1: Discover Potential ADR Files
 
 Parse arguments to get:
+
 - Module IDs (e.g., BILLING, API, DATA)
 - Options (--context-dir, --language, --include-consider, --output-dir)
 - Set output base directory (default: `docs/adrs`, or use `--output-dir` value)
 
 **Default behavior (without --include-consider):**
 Scan only must-document:
+
 ```
 docs/adrs/potential-adrs/must-document/{MODULE}/*.md
 ```
 
 **With --include-consider flag:**
 Scan both priorities:
+
 ```
 docs/adrs/potential-adrs/must-document/{MODULE}/*.md
 docs/adrs/potential-adrs/consider/{MODULE}/*.md
@@ -114,6 +120,7 @@ Task 1:
 ```
 
 **CRITICAL**:
+
 - MUST send a SINGLE message with MULTIPLE Task tool calls
 - ONE agent per potential ADR file (NOT one agent per module)
 - ALL agents run in parallel
@@ -121,6 +128,7 @@ Task 1:
 - Do NOT run sequentially
 
 ### No Modules Specified (e.g., `/adr-generate`)
+
 1. Scan `docs/adrs/potential-adrs/` to discover all modules
 2. Ask user which modules to process
 3. Follow Step 1 and Step 2 above

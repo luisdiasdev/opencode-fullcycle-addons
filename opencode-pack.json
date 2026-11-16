@@ -1,0 +1,38 @@
+{
+  "name": "full-cycle-opencode-pack",
+  "displayName": "Full Cycle OpenCode Pack",
+  "description": "OpenCode agents and commands for architecture documentation, diagrams, project analysis, and development guidelines.",
+  "version": "1.0.0",
+  "author": "Full Cycle",
+  "license": "MIT",
+  "repository": "https://github.com/luisdiasdev/opencode-fullcycle-addons",
+  "opencode": {
+    "minVersion": "0.0.0"
+  },
+  "packs": [
+    {
+      "id": "adrs-management",
+      "name": "ADRs Management",
+      "agents": ["adr-analyzer", "adr-generator", "adr-linker"],
+      "commands": ["adr-map", "adr-identify", "adr-generate", "adr-link"]
+    },
+    {
+      "id": "diagrams-generator",
+      "name": "Diagrams Generator",
+      "agents": ["c4-diagram-generator", "mermaid-diagram-generator"],
+      "commands": ["c4-generate", "mermaid-generate"]
+    },
+    {
+      "id": "project-analyzer",
+      "name": "Project Analyzer",
+      "agents": ["architectural-analyzer", "component-deep-analyzer", "dependency-auditor"],
+      "commands": ["generate-architectural-report", "run-dependency-audit"]
+    },
+    {
+      "id": "development-guidelines",
+      "name": "Development Guidelines",
+      "agents": [],
+      "commands": ["generate-development-guideline"]
+    }
+  ]
+}
